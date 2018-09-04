@@ -1,0 +1,2623 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/cat-32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/cat-32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/cat-16x16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/cat-32x32.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="About Linux C++ and routing algorithms.">
+<meta name="keywords" content="Linux C++ Routing">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Carbon&#39;s Blog">
+<meta property="og:url" content="https://carbo06.github.io/page/2/index.html">
+<meta property="og:site_name" content="Carbon&#39;s Blog">
+<meta property="og:description" content="About Linux C++ and routing algorithms.">
+<meta property="og:locale" content="zh-Hans">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Carbon&#39;s Blog">
+<meta name="twitter:description" content="About Linux C++ and routing algorithms.">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://carbo06.github.io/page/2/"/>
+
+
+
+
+
+  <title>Carbon's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left 
+  page-home">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Carbon's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">以梦为马 不负韶华</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://carbo06.github.io/2018/07/13/LeetCode-Pyramid-Transition-Matrix/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="carbo06@163.com">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carbon's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/13/LeetCode-Pyramid-Transition-Matrix/" itemprop="url">[LeetCode] Pyramid Transition Matrix</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-13T21:46:17+08:00">
+                2018-07-13
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-07-13T21:47:26+08:00">
+                2018-07-13
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>We are stacking blocks to form a pyramid. Each block has a color which is a one letter string, like <code>&#39;Z&#39;</code>.</p>
+<p>For every block of color <code>C</code> we place not in the bottom row, we are placing it on top of a left block of color <code>A</code> and right block of color <code>B</code>. We are allowed to place the block there only if <code>(A, B, C)</code> is an allowed triple.</p>
+<p>We start with a bottom row of bottom, represented as a single string. We also start with a list of allowed triples allowed. Each allowed triple is represented as a string of length 3.</p>
+<p>Return true if we can build the pyramid all the way to the top, otherwise false.</p>
+<p>Example 1:<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">Input:</span> bottom = <span class="string">"XYZ"</span>, allowed = [<span class="string">"XYD"</span>, <span class="string">"YZE"</span>, <span class="string">"DEA"</span>, <span class="string">"FFF"</span>]</span><br><span class="line"><span class="string">Output:</span> <span class="literal">true</span></span><br><span class="line"><span class="string">Explanation:</span></span><br><span class="line">We can stack the pyramid like <span class="string">this:</span></span><br><span class="line">    A</span><br><span class="line">   / \</span><br><span class="line">  D   E</span><br><span class="line"> <span class="regexp">/ \ /</span> \</span><br><span class="line">X   Y   Z</span><br><span class="line"></span><br><span class="line">This works because (<span class="string">'X'</span>, <span class="string">'Y'</span>, <span class="string">'D'</span>), (<span class="string">'Y'</span>, <span class="string">'Z'</span>, <span class="string">'E'</span>), and (<span class="string">'D'</span>, <span class="string">'E'</span>, <span class="string">'A'</span>) are allowed triples.</span><br></pre></td></tr></table></figure></p>
+<p>Example 2:<br><figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Input: bottom = <span class="string">"XXYX"</span>, allowed = [<span class="string">"XXX"</span>, <span class="string">"XXY"</span>, <span class="string">"XYX"</span>, <span class="string">"XYY"</span>, <span class="string">"YXZ"</span>]</span><br><span class="line">Output: <span class="literal">false</span></span><br><span class="line">Explanation:</span><br><span class="line">We can<span class="comment">'t stack the pyramid to the top.</span></span><br><span class="line">Note that there could be allowed triples (A, B, C) <span class="keyword">and</span> (A, B, D) <span class="keyword">with</span> C != D.</span><br></pre></td></tr></table></figure></p>
+<p>Note:<br>bottom will be a string with length in range [2, 8].<br>allowed will have length in range [0, 200].<br>Letters in all strings will be chosen from the set {‘A’, ‘B’, ‘C’, ‘D’, ‘E’, ‘F’, ‘G’}.</p>
+<p>输入是一个叫bottom 的字符串以及allowed 数组，bottom 字符串代表金字塔的最底层，allowed 数组给出了所有可能的金字塔的构建方法。给定这两个数组后判断是否能建成金字塔。<br>解题思路是使用递归的方式，每次递归构建出上一层，递归的终止条件是当前层只有一个字符。<br>需要注意的是，每次递归时需要使用dfs 搜索找出当前层所有可能的构造方式。具体见实现以及注释。</p>
+<h2 id="C-实现"><a href="#C-实现" class="headerlink" title="C++ 实现"></a>C++ 实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">pyramidTransition</span><span class="params">(<span class="built_in">string</span> bottom, <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; allowed)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 构建allowed_map, hash_map 的key是小金子塔的底部，value 是所有允许的顶部的集合</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">const</span> <span class="built_in">string</span>&amp; str : allowed)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">const</span> <span class="built_in">string</span>&amp; key = str.substr(<span class="number">0</span>, <span class="number">2</span>);</span><br><span class="line">            <span class="keyword">const</span> <span class="keyword">char</span> value = str.back();</span><br><span class="line">            <span class="keyword">if</span> (allowed_map.count(key))</span><br><span class="line">            &#123;</span><br><span class="line">                allowed_map[key].insert(value);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                allowed_map[key] = &#123;value&#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 递归搜索</span></span><br><span class="line">        <span class="keyword">return</span> dfs(bottom);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">unordered_map</span>&lt;<span class="built_in">string</span>, <span class="built_in">set</span>&lt;<span class="keyword">char</span>&gt;&gt; allowed_map;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">dfs</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span>&amp; bottom)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 终止条件</span></span><br><span class="line">        <span class="keyword">if</span> (bottom.size() == <span class="number">1</span>) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="comment">// 首先判断上一层无法构建的情况，如果无法构建直接return false</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; bottom.size() - <span class="number">1</span>; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (!allowed_map.count(bottom.substr(i, <span class="number">2</span>)))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; candidates;</span><br><span class="line">        candidates.reserve(bottom.size() - <span class="number">1</span>);</span><br><span class="line">        <span class="built_in">string</span> path;</span><br><span class="line">        <span class="comment">//使用dfs的方式找到上一层所有可能结果</span></span><br><span class="line">        getCandidates(bottom, <span class="number">0</span>, path, candidates);</span><br><span class="line">        <span class="comment">//遍历所有结果进行递归搜索</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">const</span> <span class="built_in">string</span>&amp; candidate : candidates)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (dfs(candidate))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// dfs的方式找到所有可能的上一层的结果</span></span><br><span class="line">    <span class="comment">// 结果存储到 candidates 数组中</span></span><br><span class="line">    <span class="comment">// cur 存储当前dfs的进度</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">getCandidates</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span>&amp; bottom, </span></span></span><br><span class="line"><span class="function"><span class="params">                       <span class="keyword">size_t</span> idx,</span></span></span><br><span class="line"><span class="function"><span class="params">                       <span class="built_in">string</span>&amp; cur,</span></span></span><br><span class="line"><span class="function"><span class="params">                       <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; candidates)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (idx == bottom.size() - <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            candidates.push_back(cur);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">char</span> c : allowed_map.at(bottom.substr(idx, <span class="number">2</span>)))</span><br><span class="line">        &#123;</span><br><span class="line">            cur += c;</span><br><span class="line">            getCandidates(bottom, idx + <span class="number">1</span>, cur, candidates);</span><br><span class="line">            cur.pop_back();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://carbo06.github.io/2018/07/12/C-将git提交信息编译到可执行文件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="carbo06@163.com">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carbon's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/12/C-将git提交信息编译到可执行文件/" itemprop="url">C++ 将git提交信息编译到可执行文件</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-12T11:46:20+08:00">
+                2018-07-12
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-07-12T11:54:04+08:00">
+                2018-07-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tools/" itemprop="url" rel="index">
+                    <span itemprop="name">Tools</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在生产环境中经常需要查看在线上运行的程序对应git的哪次提交。<br>我们可以在编译时获取git 最后一次提交信息GIT_SHA1 宏，C++ 程序通过访问GIT_SHA1宏可以输出和git仓库的提交信息。<br>使用Makefile时，在Makefile 添加以下<br><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CPPFLAGS+=-DGIT_SHA1=<span class="string">"$(shell git log --format='[sha1]:%h [author]:%cn [time]:%ci [commit]:%s [branch]:%d' -1)"</span></span><br></pre></td></tr></table></figure></p>
+<p>使用cmake<br><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">exec_program(</span><br><span class="line">    <span class="string">"git"</span></span><br><span class="line">    $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;</span><br><span class="line">    ARGS <span class="string">"log --format='[sha1]:%h [author]:%cn [time]:%ci [commit]:%s [branch]:%d' -1"</span></span><br><span class="line">    OUTPUT_VARIABLE VERSION_SHA1 )</span><br><span class="line">add_definitions( -DGIT_SHA1=<span class="string">"<span class="subst">$&#123;VERSION_SHA1&#125;</span>"</span> )</span><br></pre></td></tr></table></figure></p>
+<p>如果不想直接使用宏变量，可以使用cmake 提供的configure_file 访问CMakeLists.txt 中定义的各种变量.<br>configure_file的功能是根据 xxx.hpp.in文件中定义的宏创建 xxx.hpp 文件。关于configure_file 的说明见 <a href="https://cmake.org/cmake/help/v3.2/command/configure_file.html" target="_blank" rel="noopener">configure_file</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://carbo06.github.io/2018/07/12/LeetCode-Kth-Smallest-Element-in-a-Sorted-Matrix/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="carbo06@163.com">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carbon's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/12/LeetCode-Kth-Smallest-Element-in-a-Sorted-Matrix/" itemprop="url">[LeetCode] Kth Smallest Element in a Sorted Matrix</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-12T10:56:39+08:00">
+                2018-07-12
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-07-12T10:58:59+08:00">
+                2018-07-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>Given a n x n matrix where each of the rows and columns are sorted in ascending order, find the kth smallest element in the matrix.</p>
+<p>Note that it is the kth smallest element in the sorted order, not the kth distinct element.</p>
+<p>Example:</p>
+<blockquote>
+<p>matrix = [<br>   [ 1,  5,  9],<br>   [10, 11, 13],<br>   [12, 13, 15]<br>],<br>k = 8,<br>return 13.</p>
+</blockquote>
+<p>Note:<br>You may assume k is always valid, 1 ≤ k ≤ n2.<br>输入是一个二维矩阵，二维矩阵的每行每列都有序，要求求出矩阵所有数值的第k 小的数。<br>解题思路是使用一个优先队列(堆)存储矩阵的数值，优先队列pop (k - 1) 次后，位于堆顶的值就是第k 小的数值。由于二维矩阵的每行每列都有序，因此我们使用矩阵的第一行或者第一列初始化堆，每pop 一个节点，将节点下侧(右侧)的数入堆。<br>需要注意的是 c++ 中提供的priority_queue 默认是大根堆，需要重载节点的比较运算符实现小根堆的功能。</p>
+<h2 id="C-实现"><a href="#C-实现" class="headerlink" title="C++ 实现"></a>C++ 实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">kthSmallest</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; matrix, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">size_t</span> m = matrix.size();</span><br><span class="line">        <span class="keyword">if</span> (matrix.empty()) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">size_t</span> n = matrix[<span class="number">0</span>].size();</span><br><span class="line"></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></span><br><span class="line"><span class="class">        &#123;</span></span><br><span class="line">            <span class="keyword">size_t</span> x;</span><br><span class="line">            <span class="keyword">size_t</span> y;</span><br><span class="line">            <span class="keyword">int</span> val;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">bool</span> <span class="keyword">operator</span> &lt; (<span class="keyword">const</span> Node&amp; other) <span class="keyword">const</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> val &gt;= other.val;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        priority_queue&lt;Node&gt; pq;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">size_t</span> j = <span class="number">0</span>; j &lt; n; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            pq.push(&#123;<span class="number">0</span>, j, matrix[<span class="number">0</span>][j]&#125;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; k - <span class="number">1</span>; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">const</span> Node&amp; top = pq.top();</span><br><span class="line">            <span class="keyword">const</span> <span class="keyword">size_t</span> x = top.x;</span><br><span class="line">            <span class="keyword">const</span> <span class="keyword">size_t</span> y = top.y;</span><br><span class="line">            pq.pop();</span><br><span class="line">            <span class="keyword">if</span> (x == m - <span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            pq.push(&#123;x + <span class="number">1</span>, y, matrix[x + <span class="number">1</span>][y]&#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> pq.top().val;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://carbo06.github.io/2018/07/11/rundeck-CentOS-部署以及配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="carbo06@163.com">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carbon's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/11/rundeck-CentOS-部署以及配置/" itemprop="url">rundeck CentOS 部署以及配置</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-11T14:18:25+08:00">
+                2018-07-11
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-09-04T11:26:51+08:00">
+                2018-09-04
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tools/" itemprop="url" rel="index">
+                    <span itemprop="name">Tools</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>rundeck 是一个在多机器环境下实现自动化执行以及调度任务的开源工具。rundeck 提供了web 界面，用户可以通过web 界面定制任务，调度，观察节点的执行情况。</p>
+<h2 id="安装与配置"><a href="#安装与配置" class="headerlink" title="安装与配置"></a>安装与配置</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>rundeck 的官网位置<a href="https://www.rundeck.com/open-source" target="_blank" rel="noopener">rundeck</a><br>rundeck 运行依赖于java，因此需要首先安装并配置java<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">yum</span> <span class="selector-tag">install</span> <span class="selector-tag">java-1</span><span class="selector-class">.8</span><span class="selector-class">.0-openjdk</span> <span class="selector-tag">java-1</span><span class="selector-class">.8</span><span class="selector-class">.0-openjdk-devel</span> <span class="selector-tag">-y</span></span><br></pre></td></tr></table></figure></p>
+<p>在 /etc/profile.d 目录下创建 java.sh， 在java.sh 中写入<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">JAVA_HOME=/usr/bin/java</span><br><span class="line">PATH=<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$PATH</span></span><br><span class="line"><span class="built_in">export</span> PATH JAVA_HOME</span><br><span class="line"><span class="built_in">export</span> CLASSPATH=.</span><br></pre></td></tr></table></figure></p>
+<p>为java.sh 添加执行权限<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +<span class="keyword">x</span> /etc/<span class="keyword">profile</span>.d/java.<span class="keyword">sh</span></span><br></pre></td></tr></table></figure></p>
+<p>使java环境变量生效<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">source</span> /etc/<span class="keyword">profile</span>.d/java.<span class="keyword">sh</span></span><br></pre></td></tr></table></figure></p>
+<p>使用yum 安装rundeck<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpm -Uvh <span class="string">http:</span><span class="comment">//repo.rundeck.org/latest.rpm</span></span><br><span class="line">yum install rundeck</span><br></pre></td></tr></table></figure></p>
+<p>如果使用yum 安装失败，可以使用rpm 的方式安装。<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget http:<span class="comment">//download.rundeck.org/rpm/rundeck-2.11.5-1.56.GA.noarch.rpm</span></span><br><span class="line">wget http:<span class="comment">//download.rundeck.org/rpm/rundeck-config-2.11.5-1.56.GA.noarch.rpm</span></span><br><span class="line">rpm -<span class="selector-tag">i</span> rundeck-<span class="number">2.11</span>.<span class="number">5</span>-<span class="number">1.56</span><span class="selector-class">.GA</span><span class="selector-class">.noarch</span><span class="selector-class">.rpm</span> rundeck-config-<span class="number">2.11</span>.<span class="number">5</span>-<span class="number">1.56</span><span class="selector-class">.GA</span><span class="selector-class">.noarch</span><span class="selector-class">.rpm</span></span><br></pre></td></tr></table></figure></p>
+<p>启动rundeck 服务<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/etc/i</span>nit.d<span class="regexp">/rundeckd start</span></span><br></pre></td></tr></table></figure></p>
+<p>检查rundeck 是否启动<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ps</span> -ef | <span class="keyword">grep</span> rundeck</span><br><span class="line">netstat -anp | <span class="keyword">grep</span> <span class="number">4440</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><h4 id="更改默认用户名密码"><a href="#更改默认用户名密码" class="headerlink" title="更改默认用户名密码"></a>更改默认用户名密码</h4><p>rundeck 默认用户名密码都是admin，可以更改/etc/rundeck/realm.properties 文件中相应位置。更改后重启rundeck 服务<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">service rundeckd restart</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="更改根url设置"><a href="#更改根url设置" class="headerlink" title="更改根url设置"></a>更改根url设置</h4><p>如果只在部署rundeck的机器访问rundeck web界面则不需要<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim <span class="meta-keyword">/etc/</span>rundeck/rundeck-config.properties</span><br><span class="line">vim <span class="meta-keyword">/etc/</span>rundeck/framework.properties</span><br></pre></td></tr></table></figure></p>
+<p>把这两个文件中所有的<strong>localhost</strong> 更改为本机的ip地址然后保存</p>
+<h4 id="添加node节点"><a href="#添加node节点" class="headerlink" title="添加node节点"></a>添加node节点</h4><p> 在下面示例中展示</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>在浏览器中输入rundeck 地址，以我部署的服务为例<a href="http://10.4.227.26:4440/" target="_blank" rel="noopener">http://10.4.227.26:4440/</a><br><img src="https://myblog-1256683296.cos.ap-beijing.myqcloud.com/rundeck_login.jpg" alt="这里写图片描述"><br>默认输入 admin admin 登录, 登录后新建一个project<br><img src="https://myblog-1256683296.cos.ap-beijing.myqcloud.com/rundeck_newproject.jpg" alt="这里写图片描述"><br>输入新建project 的名称以及描述其他按照默认选择，以test 为例，滚动到页面最后点击<strong>create</strong> 创建<br><img src="https://myblog-1256683296.cos.ap-beijing.myqcloud.com/rundeck_project1.jpg" alt="这里写图片描述"><br><img src="https://myblog-1256683296.cos.ap-beijing.myqcloud.com/rundeck_project2.jpg" alt="avatar"><br>下一步继续按照默认配置保存<br>新建工程后，我们查看工程下的node 节点<br><img src="https://myblog-1256683296.cos.ap-beijing.myqcloud.com/rundeck_nodes.jpg" alt="avatar"><br>可以看到默认情况工程下只有server node 节点。为了添加其他节点,我们进入到 /var/rundeck/projects/test/etc 路径，编辑resources.xml 文件，默认情况resources.xml 下只有server node， 如下图<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">node</span> <span class="attr">name</span>=<span class="string">"10.4.227.26"</span> <span class="attr">description</span>=<span class="string">"Rundeck server node"</span> <span class="attr">tags</span>=<span class="string">""</span> <span class="attr">hostname</span>=<span class="string">"10.4.227.26"</span> <span class="attr">osArch</span>=<span class="string">"amd64"</span> <span class="attr">osFamily</span>=<span class="string">"unix"</span> <span class="attr">osName</span>=<span class="string">"Linux"</span> <span class="attr">osVersion</span>=<span class="string">"3.10.0-123.el7.x86_64"</span> <span class="attr">username</span>=<span class="string">"rundeck"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>以10.4.227.21为例，添加node节点，添加client node 节点后配置如下<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">node</span> <span class="attr">name</span>=<span class="string">"10.4.227.26"</span> <span class="attr">description</span>=<span class="string">"Rundeck server node"</span> <span class="attr">tags</span>=<span class="string">""</span> <span class="attr">hostname</span>=<span class="string">"10.4.227.26"</span> <span class="attr">osArch</span>=<span class="string">"amd64"</span> <span class="attr">osFamily</span>=<span class="string">"unix"</span> <span class="attr">osName</span>=<span class="string">"Linux"</span> <span class="attr">osVersion</span>=<span class="string">"3.10.0-123.el7.x86_64"</span> <span class="attr">username</span>=<span class="string">"rundeck"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">node</span> <span class="attr">name</span>=<span class="string">"10.4.227.21"</span> <span class="attr">description</span>=<span class="string">"Rundeck client node"</span> <span class="attr">tags</span>=<span class="string">""</span> <span class="attr">hostname</span>=<span class="string">"10.4.227.21"</span> <span class="attr">osArch</span>=<span class="string">"amd64"</span> <span class="attr">osFamily</span>=<span class="string">"unix"</span> <span class="attr">osName</span>=<span class="string">"Linux"</span> <span class="attr">osVersion</span>=<span class="string">"3.10.0-123.el7.x86_64"</span> <span class="attr">username</span>=<span class="string">"ce39906"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>新增的hostname username 需要配置正确。<br>完成配置后，刷新web 界面，可以看到新增的10.4.227.21<br><img src="https://myblog-1256683296.cos.ap-beijing.myqcloud.com/rundeck_nodes1.jpg" alt="avatar"><br>仅仅在rundeck server 添加如下配置不能实现rundeck server 到client 的无密码连接。因此，我们登录到rundeck client机器(10.4.227.21)，将 rundeck server(10.4.227.26) /var/lib/rundeck/.ssh/id_rsa.pub 的内容追加到 client 机器中的 ~/.ssh/authorized_keys<br>以上就完成rundeck node 节点的添加。下面我们测试通过web 界面配置在指定的node 节点上执行命令<br><img src="https://myblog-1256683296.cos.ap-beijing.myqcloud.com/rundeck_commands.jpg" alt="avatar"><br>选择所有节点后，我们以执行 <strong>ls /tmp</strong> 为例<br><img src="https://myblog-1256683296.cos.ap-beijing.myqcloud.com/rundeck_commands1.jpg" alt="avatar"><br>点击右上角的执行，执行结果如下<br><img src="https://myblog-1256683296.cos.ap-beijing.myqcloud.com/rundeck_commands2.jpg" alt="avatar"><br>除了简单的命令，rundeck job 支持实现更加复杂的任务。我们以执行脚本为例进行说明。首先新建一个job<br><img src="https://myblog-1256683296.cos.ap-beijing.myqcloud.com/rundeck_job.jpg" alt="avatar"><br>配置job 的名称以及描述<br><img src="https://myblog-1256683296.cos.ap-beijing.myqcloud.com/rundeck_job1.jpg" alt="avatar"><br>在step 中选择执行脚本任务<br><img src="https://myblog-1256683296.cos.ap-beijing.myqcloud.com/rundeck_job2.jpg" alt="avatar"><br>点击后编辑脚本并保存<br><img src="https://myblog-1256683296.cos.ap-beijing.myqcloud.com/rundeck_job3.jpg" alt="avatar"><br>选择执行job 的node, 这里我们选择client node(10.4.227.21) 执行<br><img src="https://myblog-1256683296.cos.ap-beijing.myqcloud.com/rundeck_job4.jpg" alt="avatar"><br>其他使用默认配置，点击创建，创建完成后执行job<br><img src="https://myblog-1256683296.cos.ap-beijing.myqcloud.com/rundeck_job5.jpg" alt="avatar"><br>执行结果如下<br><img src="https://myblog-1256683296.cos.ap-beijing.myqcloud.com/rundeck_job6.jpg" alt="avatar"><br>可以看到在rundeck client 上执行了job 指定的脚本(执行 whoami 以及 ifconfig)</p>
+<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p>rundeck 在完成初始配置后可以很方便用于在一组机器上执行各种任务，这种场景在生产环境以及日常运维中非常常见，类似的工具还有jenkins<br>前段时间公司部门要求开发自动部署工具，全套使用脚本+ ssh 的方式，健壮性和稳定性都存在不少问题。类似的自动部署的功能完全可以使用rundeck 配置job 的方式执行而不需要重新造轮子再搞一套鸡肋的东西。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://carbo06.github.io/2018/07/09/LeetCode-Smallest-Subtree-with-all-the-Deepest-Nodes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="carbo06@163.com">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carbon's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/09/LeetCode-Smallest-Subtree-with-all-the-Deepest-Nodes/" itemprop="url">[LeetCode] Smallest Subtree with all the Deepest Nodes</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-09T19:17:55+08:00">
+                2018-07-09
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-07-09T19:18:53+08:00">
+                2018-07-09
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>Given a binary tree rooted at root, the depth of each node is the shortest distance to the root.</p>
+<p>A node is deepest if it has the largest depth possible among any node in the entire tree.</p>
+<p>The subtree of a node is that node, plus the set of all descendants of that node.</p>
+<p>Return the node with the largest depth such that it contains all the deepest nodes in it’s subtree.</p>
+<p>Example 1:</p>
+<blockquote>
+<p>Input: [3,5,1,6,2,0,8,null,null,7,4]<br>Output: [2,7,4]<br>Explanation:<br><img src="https://s3-lc-upload.s3.amazonaws.com/uploads/2018/07/01/sketch1.png" alt="avatar"><br>We return the node with value 2, colored in yellow in the diagram.<br>The nodes colored in blue are the deepest nodes of the tree.<br>The input “[3, 5, 1, 6, 2, 0, 8, null, null, 7, 4]” is a serialization of the given tree.<br>The output “[2, 7, 4]” is a serialization of the subtree rooted at the node with value 2.<br>Both the input and output have TreeNode type.</p>
+</blockquote>
+<p>题目描述比较绕，其实实际意思比较直白，要求求出具有最高高度的子树的根节点，或者说是求具有最高高度的非叶子节点。<br>解决方案可以使用dfs搜索，每次搜索返回当前的根节点以及当前最大深度，如果左右子树深度一样，则返回根节点且深度加一，如果左子树的深度更深，返回左子树的根并且深度加一。相应的，右子树的深度更深，返回右子树的根并且深度加一。</p>
+<h2 id="C-实现"><a href="#C-实现" class="headerlink" title="C++ 实现"></a>C++ 实现</h2><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Definition <span class="keyword">for</span> a binary tree node.</span><br><span class="line"> * struct TreeNode &#123;</span><br><span class="line"> *     <span class="built_in">int</span> val;</span><br><span class="line"> *     TreeNode *<span class="built_in">left</span>;</span><br><span class="line"> *     TreeNode *<span class="built_in">right</span>;</span><br><span class="line"> *     TreeNode(<span class="built_in">int</span> x) : val(x), <span class="built_in">left</span>(<span class="literal">NULL</span>), <span class="built_in">right</span>(<span class="literal">NULL</span>) &#123;&#125;</span><br><span class="line"> * &#125;;</span><br><span class="line"> */</span><br><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    TreeNode* subtreeWithAllDeepest(TreeNode* root) &#123;</span><br><span class="line">        <span class="keyword">const</span> pair&lt;<span class="built_in">int</span>, TreeNode*&gt; res = dfs(root);</span><br><span class="line">        return res.<span class="built_in">second</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    pair&lt;<span class="built_in">int</span>, TreeNode*&gt; dfs(TreeNode* root)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!root) return &#123;<span class="number">0</span>, <span class="literal">NULL</span>&#125;;</span><br><span class="line">        <span class="keyword">const</span> pair&lt;<span class="built_in">int</span>, TreeNode*&gt; <span class="built_in">left</span> = dfs(root-&gt;<span class="built_in">left</span>);</span><br><span class="line">        <span class="keyword">const</span> pair&lt;<span class="built_in">int</span>, TreeNode*&gt; <span class="built_in">right</span> = dfs(root-&gt;<span class="built_in">right</span>);</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">left</span>.first == <span class="built_in">right</span>.first) return &#123;<span class="built_in">left</span>.first + <span class="number">1</span>, root&#125;;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">left</span>.first &lt; <span class="built_in">right</span>.first) return &#123;<span class="built_in">right</span>.first + <span class="number">1</span>, <span class="built_in">right</span>.<span class="built_in">second</span>&#125;;</span><br><span class="line">        return &#123;<span class="built_in">left</span>.first + <span class="number">1</span>, <span class="built_in">left</span>.<span class="built_in">second</span>&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://carbo06.github.io/2018/07/06/LeetCode-Implement-Magic-Dictionary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="carbo06@163.com">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carbon's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/06/LeetCode-Implement-Magic-Dictionary/" itemprop="url">[LeetCode] Implement Magic Dictionary</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-06T12:51:25+08:00">
+                2018-07-06
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-07-06T12:55:20+08:00">
+                2018-07-06
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>Implement a magic directory with buildDict, and search methods.</p>
+<p>For the method buildDict, you’ll be given a list of non-repetitive words to build a dictionary.</p>
+<p>For the method search, you’ll be given a word, and judge whether if you modify exactly one character into another character in this word, the modified word is in the dictionary you just built.</p>
+<p>Example 1:</p>
+<blockquote>
+<p>Input: buildDict([“hello”, “leetcode”]), Output: Null<br>Input: search(“hello”), Output: False<br>Input: search(“hhllo”), Output: True<br>Input: search(“hell”), Output: False<br>Input: search(“leetcoded”), Output: False</p>
+</blockquote>
+<p>Note:<br>You may assume that all the inputs are consist of lowercase letters a-z.<br>For contest purpose, the test data is rather small by now. You could think about highly efficient algorithm after the contest.<br>Please remember to RESET your class variables declared in class MagicDictionary, as static/class variables are persisted across multiple test cases. Please see here for more details.</p>
+<p>题目要求建立一个字典，查找一个word 改变并且只改变一个字符后在字典中是否存在。<br>解决思路是根据字符串的大小建立索引，如果字符串的大小在索引不存在则直接返回false, 如果存在则遍历字典中和待查询字符同样大小的字符串集合，查看是否有满足改变只改变一个字符后相等的字符串。</p>
+<h2 id="C-实现"><a href="#C-实现" class="headerlink" title="C++ 实现"></a>C++ 实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MagicDictionary</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">/** Initialize your data structure here. */</span></span><br><span class="line">    MagicDictionary() &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** Build a dictionary through a list of words */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">buildDict</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; dict)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">const</span> <span class="built_in">string</span>&amp; str : dict)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">const</span> <span class="keyword">size_t</span> size = str.size();</span><br><span class="line">            <span class="keyword">if</span> (size_2_strs.count(size))</span><br><span class="line">            &#123;</span><br><span class="line">                size_2_strs[size].emplace_back(str);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                size_2_strs[size] = <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;(<span class="number">1</span>, str);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** Returns if there is any word in the trie that equals to the given word after modifying exactly one character */</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">search</span><span class="params">(<span class="built_in">string</span> word)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">size_t</span> size = word.size();</span><br><span class="line">        <span class="keyword">if</span> (!size_2_strs.count(size))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">const</span> <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; strs = size_2_strs.at(size);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">const</span> <span class="built_in">string</span>&amp; str : strs)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (modifyOneEqual(str, word))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">unordered_map</span>&lt;<span class="keyword">size_t</span>, <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt; size_2_strs;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">modifyOneEqual</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span>&amp; one, <span class="keyword">const</span> <span class="built_in">string</span>&amp; another)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">size_t</span> size = one.size();</span><br><span class="line">        <span class="keyword">int</span> diff_num = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; size; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (one[i] != another[i])</span><br><span class="line">            &#123;</span><br><span class="line">                diff_num++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (diff_num &gt; <span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> diff_num == <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Your MagicDictionary object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"> * MagicDictionary obj = new MagicDictionary();</span></span><br><span class="line"><span class="comment"> * obj.buildDict(dict);</span></span><br><span class="line"><span class="comment"> * bool param_2 = obj.search(word);</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+<p>该实现响应时间击败Leetcode 上其他100%</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://carbo06.github.io/2018/07/05/LeetCode-House-Robber-III/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="carbo06@163.com">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carbon's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/05/LeetCode-House-Robber-III/" itemprop="url">[LeetCode] House Robber III</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-05T19:41:53+08:00">
+                2018-07-05
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-07-05T19:47:26+08:00">
+                2018-07-05
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>The thief has found himself a new place for his thievery again. There is only one entrance to this area, called the “root.” Besides the root, each house has one and only one parent house. After a tour, the smart thief realized that “all houses in this place forms a binary tree”. It will automatically contact the police if two directly-linked houses were broken into on the same night.</p>
+<p>Determine the maximum amount of money the thief can rob tonight without alerting the police.</p>
+<p>Example 1:<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  <span class="number">3</span></span><br><span class="line"> / \</span><br><span class="line"><span class="number">2</span>   <span class="number">3</span></span><br><span class="line"> \   \</span><br><span class="line">  <span class="number">3</span>   <span class="number">1</span></span><br></pre></td></tr></table></figure></p>
+<p>Maximum amount of money the thief can rob = 3 + 3 + 1 = 7.<br>Example 2:<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">    <span class="number">3</span></span><br><span class="line">   / \</span><br><span class="line">  <span class="number">4</span>   <span class="number">5</span></span><br><span class="line"> / \   \</span><br><span class="line"><span class="number">1</span>   <span class="number">3</span>   <span class="number">1</span></span><br></pre></td></tr></table></figure></p>
+<p>Maximum amount of money the thief can rob = 4 + 5 = 9.<br>Credits:<br>Special thanks to @dietpepsi for adding this problem and creating all test cases.</p>
+<p>输入是一个二叉树，要求求出不具有父子关系的最大节点集合。<br>解题思路如下<br>最大值有以下两种可能</p>
+<ol>
+<li>选择当前根节点： 当前节点数值 + 左子树最大值(不选择左子树的根节点) + 右子树最大值(不选择右子树的根节点)</li>
+<li>不选择当前根节点: 左子树最大值 + 右子树最大值</li>
+</ol>
+<p>我们可以使用递归的方式实现。每次递归运算返回两个值，一个代表选取当前根节点的最大值，一个代表不选取当前根节点的最大值。最后递归结束后，返回两个数值的最大值。</p>
+<h2 id="C-实现"><a href="#C-实现" class="headerlink" title="C++ 实现"></a>C++ 实现</h2><figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">class Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">int</span> rob(TreeNode* root) &#123;</span><br><span class="line">        <span class="keyword">if</span> (root == NULL) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">const</span> pair&lt;<span class="built_in">int</span>, <span class="built_in">int</span>&gt; rob_or_not = robOrNot(root);</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>(rob_or_not.first, rob_or_not.<span class="built_in">second</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	</span><br><span class="line">    <span class="comment">// pair.first 存储不选取当前根节点的结果</span></span><br><span class="line">    <span class="comment">// pair.second 存储选取当前根节点的结果</span></span><br><span class="line">    pair&lt;<span class="built_in">int</span>, <span class="built_in">int</span>&gt; robOrNot(TreeNode* root)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (root == NULL) <span class="keyword">return</span> &#123;<span class="number">0</span>, <span class="number">0</span>&#125;;</span><br><span class="line">        <span class="keyword">const</span> pair&lt;<span class="built_in">int</span>, <span class="built_in">int</span>&gt; left = robOrNot(root-&gt;left);</span><br><span class="line">        <span class="keyword">const</span> pair&lt;<span class="built_in">int</span>, <span class="built_in">int</span>&gt; right = robOrNot(root-&gt;right);</span><br><span class="line">        <span class="comment">// 选择当前根节点的结果，由三部分组成</span></span><br><span class="line">        <span class="built_in">int</span> rob_root = left.<span class="built_in">second</span> + right.<span class="built_in">second</span> + root-&gt;val;</span><br><span class="line">        <span class="comment">// 不选择当前根节点的结果，由两部分组成</span></span><br><span class="line">        <span class="built_in">int</span> not_rob_root = <span class="built_in">max</span>(left.first, left.<span class="built_in">second</span>) + <span class="built_in">max</span>(right.first, right.<span class="built_in">second</span>);</span><br><span class="line">        <span class="keyword">return</span> &#123;rob_root, not_rob_root&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://carbo06.github.io/2018/07/04/LeetCode-Print-Binary-Tree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="carbo06@163.com">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carbon's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/04/LeetCode-Print-Binary-Tree/" itemprop="url">[LeetCode] Print Binary Tree</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-04T12:35:42+08:00">
+                2018-07-04
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-07-04T12:37:00+08:00">
+                2018-07-04
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>Print a binary tree in an m*n 2D string array following these rules:</p>
+<p>The row number m should be equal to the height of the given binary tree.<br>The column number n should always be an odd number.<br>The root node’s value (in string format) should be put in the exactly middle of the first row it can be put. The column and the row where the root node belongs will separate the rest space into two parts (left-bottom part and right-bottom part). You should print the left subtree in the left-bottom part and print the right subtree in the right-bottom part. The left-bottom part and the right-bottom part should have the same size. Even if one subtree is none while the other is not, you don’t need to print anything for the none subtree but still need to leave the space as large as that for the other subtree. However, if two subtrees are none, then you don’t need to leave space for both of them.<br>Each unused space should contain an empty string “”.<br>Print the subtrees following the same rules.<br>Example 1:<br><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">Input</span>:</span><br><span class="line">     <span class="number">1</span></span><br><span class="line">    /</span><br><span class="line">   <span class="number">2</span></span><br><span class="line"><span class="symbol">Output</span>:</span><br><span class="line">[[<span class="string">""</span>, <span class="string">"1"</span>, <span class="string">""</span>],</span><br><span class="line"> [<span class="string">"2"</span>, <span class="string">""</span>, <span class="string">""</span>]]</span><br></pre></td></tr></table></figure></p>
+<p>Example 2:<br><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">Input</span>:</span><br><span class="line">     <span class="number">1</span></span><br><span class="line">    / \</span><br><span class="line">   <span class="number">2</span>   <span class="number">3</span></span><br><span class="line">    \</span><br><span class="line">     <span class="number">4</span></span><br><span class="line"><span class="symbol">Output</span>:</span><br><span class="line">[[<span class="string">""</span>, <span class="string">""</span>, <span class="string">""</span>, <span class="string">"1"</span>, <span class="string">""</span>, <span class="string">""</span>, <span class="string">""</span>],</span><br><span class="line"> [<span class="string">""</span>, <span class="string">"2"</span>, <span class="string">""</span>, <span class="string">""</span>, <span class="string">""</span>, <span class="string">"3"</span>, <span class="string">""</span>],</span><br><span class="line"> [<span class="string">""</span>, <span class="string">""</span>, <span class="string">"4"</span>, <span class="string">""</span>, <span class="string">""</span>, <span class="string">""</span>, <span class="string">""</span>]]</span><br></pre></td></tr></table></figure></p>
+<p>Example 3:<br><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">Input</span>:</span><br><span class="line">      <span class="number">1</span></span><br><span class="line">     / \</span><br><span class="line">    <span class="number">2</span>   <span class="number">5</span></span><br><span class="line">   /</span><br><span class="line">  <span class="number">3</span></span><br><span class="line"> /</span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="symbol">Output</span>:</span><br><span class="line">[[<span class="string">""</span>,  <span class="string">""</span>,  <span class="string">""</span>, <span class="string">""</span>,  <span class="string">""</span>, <span class="string">""</span>, <span class="string">""</span>, <span class="string">"1"</span>, <span class="string">""</span>,  <span class="string">""</span>,  <span class="string">""</span>,  <span class="string">""</span>,  <span class="string">""</span>, <span class="string">""</span>, <span class="string">""</span>]</span><br><span class="line"> [<span class="string">""</span>,  <span class="string">""</span>,  <span class="string">""</span>, <span class="string">"2"</span>, <span class="string">""</span>, <span class="string">""</span>, <span class="string">""</span>, <span class="string">""</span>,  <span class="string">""</span>,  <span class="string">""</span>,  <span class="string">""</span>,  <span class="string">"5"</span>, <span class="string">""</span>, <span class="string">""</span>, <span class="string">""</span>]</span><br><span class="line"> [<span class="string">""</span>,  <span class="string">"3"</span>, <span class="string">""</span>, <span class="string">""</span>,  <span class="string">""</span>, <span class="string">""</span>, <span class="string">""</span>, <span class="string">""</span>,  <span class="string">""</span>,  <span class="string">""</span>,  <span class="string">""</span>,  <span class="string">""</span>,  <span class="string">""</span>, <span class="string">""</span>, <span class="string">""</span>]</span><br><span class="line"> [<span class="string">"4"</span>, <span class="string">""</span>,  <span class="string">""</span>, <span class="string">""</span>,  <span class="string">""</span>, <span class="string">""</span>, <span class="string">""</span>, <span class="string">""</span>,  <span class="string">""</span>,  <span class="string">""</span>,  <span class="string">""</span>,  <span class="string">""</span>,  <span class="string">""</span>, <span class="string">""</span>, <span class="string">""</span>]]</span><br></pre></td></tr></table></figure></p>
+<p>Note: The height of binary tree is in the range of [1, 10].<br>输入是一个二叉树，要求将二叉树的打印到一个二维数组中，二维数组每行对应二叉树的每行，二维数组行数对应二叉树的高度。<br>解决思路是首先求得二叉树的高度，提前分配出二维数组，然后递归二叉树在二维数组中位置填写数值。递归每向下一次，二维数组中的行的位置就加一，列的位置是每次区间的中间值。如果是递归左子树的话就是左半区间，如果递归右子树的话就是右半区间。</p>
+<h2 id="C-实现"><a href="#C-实现" class="headerlink" title="C++ 实现"></a>C++ 实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt; printTree(TreeNode* root) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!root)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt;&#123;&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">size_t</span> row = getTreeHeight(root);</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">size_t</span> col = (<span class="number">1</span> &lt;&lt; row) - <span class="number">1</span>;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt; res(row, <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;(col, <span class="string">""</span>));</span><br><span class="line">        populateTree(root, row, <span class="number">0</span>, <span class="number">0</span>, col - <span class="number">1</span>, res);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">size_t</span> getTreeHeight(<span class="keyword">const</span> TreeNode* root)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">NULL</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span> + max(getTreeHeight(root-&gt;left), getTreeHeight(root-&gt;right));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">populateTree</span><span class="params">(<span class="keyword">const</span> TreeNode* root,</span></span></span><br><span class="line"><span class="function"><span class="params">                      <span class="keyword">const</span> <span class="keyword">size_t</span> max_row,</span></span></span><br><span class="line"><span class="function"><span class="params">                      <span class="keyword">const</span> <span class="keyword">size_t</span> row,</span></span></span><br><span class="line"><span class="function"><span class="params">                      <span class="keyword">const</span> <span class="keyword">size_t</span> left,</span></span></span><br><span class="line"><span class="function"><span class="params">                      <span class="keyword">const</span> <span class="keyword">size_t</span> right,</span></span></span><br><span class="line"><span class="function"><span class="params">                      <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt;&amp; res)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!root || row == max_row)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        res[row][(left + right) &gt;&gt; <span class="number">1</span>] = to_string(root-&gt;val);</span><br><span class="line">        populateTree(root-&gt;left, max_row, row + <span class="number">1</span>, left, ((left + right) &gt;&gt; <span class="number">1</span>) - <span class="number">1</span>, res);</span><br><span class="line">        populateTree(root-&gt;right, max_row, row + <span class="number">1</span>, ((left + right) &gt;&gt; <span class="number">1</span>) + <span class="number">1</span>, right, res);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://carbo06.github.io/2018/07/02/LeetCode-Lemonade-Change/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="carbo06@163.com">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carbon's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/02/LeetCode-Lemonade-Change/" itemprop="url">[LeetCode] Lemonade Change</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-02T16:03:20+08:00">
+                2018-07-02
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-07-02T16:10:20+08:00">
+                2018-07-02
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>At a lemonade stand, each lemonade costs $5.</p>
+<p>Customers are standing in a queue to buy from you, and order one at a time (in the order specified by bills).</p>
+<p>Each customer will only buy one lemonade and pay with either a \$5, \$10, or \$20 bill.  You must provide the correct change to each customer, so that the net transaction is that the customer pays \$5.</p>
+<p>Note that you don’t have any change in hand at first.</p>
+<p>Return true if and only if you can provide every customer with correct change.</p>
+<p>Example 1:</p>
+<blockquote>
+<p>Input: [5,5,5,10,20]<br>Output: true<br>Explanation:<br>From the first 3 customers, we collect three $5 bills in order.<br>From the fourth customer, we collect a \$10 bill and give back a \$5.<br>From the fifth customer, we give a \$10 bill and a \$5 bill.<br>Since all customers got correct change, we output true.</p>
+</blockquote>
+<p>Example 2:</p>
+<blockquote>
+<p>Input: [5,5,10]<br>Output: true</p>
+</blockquote>
+<p>Example 3:</p>
+<blockquote>
+<p>Input: [10,10]<br>Output: false</p>
+</blockquote>
+<p>Example 4:</p>
+<blockquote>
+<p>Input: [5,5,10,10,20]<br>Output: false<br>Explanation:<br>From the first two customers in order, we collect two \$5 bills.<br>For the next two customers in order, we collect a \$10 bill and give back a \$5 bill.<br>For the last customer, we can’t give change of \$15 back because we only have two \$10 bills.<br>Since not every customer received correct change, the answer is false.</p>
+</blockquote>
+<p>Note:</p>
+<p>0 &lt;= bills.length &lt;= 10000<br>bills[i] will be either 5, 10, or 20.</p>
+<p>有一个柠檬水摊，每瓶柠檬水售价5刀，货主只接收 5，10，20 的现金，问题是摊主是否可以按照购买的顺序完成找零。<br>解决思路是使用两个变量分别记录5元现金和10元现金的张数，每次交易的时候判断是否可以完成找零并更新现金数目</p>
+<h2 id="C-实现"><a href="#C-实现" class="headerlink" title="C++实现"></a>C++实现</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">lemonadeChange</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; bills)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">unsigned</span> five_cash_cnt = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">unsigned</span> ten_cash_cnt = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">int</span> bill : bills)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">switch</span> (bill)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">                    five_cash_cnt++;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">10</span>:</span><br><span class="line">                    <span class="keyword">if</span> (!five_cash_cnt)</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    five_cash_cnt--;</span><br><span class="line">                    ten_cash_cnt++;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">20</span>:</span><br><span class="line">                    <span class="keyword">if</span> (ten_cash_cnt &amp;&amp; five_cash_cnt)</span><br><span class="line">                    &#123;</span><br><span class="line">                        ten_cash_cnt--;</span><br><span class="line">                        five_cash_cnt--;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span> <span class="keyword">if</span> (five_cash_cnt &gt; <span class="number">2</span>)</span><br><span class="line">                    &#123;</span><br><span class="line">                        five_cash_cnt -= <span class="number">3</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span></span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://carbo06.github.io/2018/06/29/C-cout打印uint8-t的正确方式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="carbo06@163.com">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carbon's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/29/C-cout打印uint8-t的正确方式/" itemprop="url">C++ cout打印uint8_t的正确方式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-29T14:40:58+08:00">
+                2018-06-29
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-09-04T11:26:05+08:00">
+                2018-09-04
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Backend-Development/" itemprop="url" rel="index">
+                    <span itemprop="name">Backend Development</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>编译运行以下代码<br><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="markdown">/<span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="emphasis">***</span></span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">    &gt; File Name: cout_uint8.cpp</span></span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">    &gt; Author: ce39906</span></span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">    &gt; Mail: ce39906@163.com</span></span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">    &gt; Created Time: 2018-06-29 13:50:53</span></span></span></span><br><span class="line"><span class="comment"><span class="markdown"> <span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span>**/</span></span></span><br><span class="line">#include &lt;cstdint&gt;</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line"></span><br><span class="line"><span class="built_in">int</span> main()</span><br><span class="line">&#123;</span><br><span class="line">    std::uint8_t uint8_num = <span class="number">10</span>;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">"uint8_t num is "</span> &lt;&lt; uint8_num &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>编译<br><figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">g</span><span class="literal">+</span><span class="literal">+</span> <span class="comment">cout_uint8</span><span class="string">.</span><span class="comment">cpp</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">std=c</span><span class="literal">+</span><span class="literal">+</span><span class="comment">11</span> <span class="literal">-</span><span class="comment">o</span> <span class="comment">cout_uint8</span></span><br></pre></td></tr></table></figure></p>
+<p>运行得到的输出如下<br><img src="https://myblog-1256683296.cos.ap-beijing.myqcloud.com/cout_uint8.png" alt="avatar"><br>cout没有正确打印数字10<br>产生这种情况的原因是很多c++ 实现中 <strong>uint8_t</strong> 是 <strong>unsigned char</strong> 的 <strong>typedef</strong>。因此cout 实际调用的函数是 <strong>ostream&amp; operator&lt;&lt;(ostream&amp;, unsigned char)</strong> ，因此实际的执行结果是打印对应的ASCII 码字符，而其字符是不可以打印的。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>将<strong>uint8_t</strong> 转化为<strong>unsigned</strong> 类型<br>使用一元运算符<strong>+</strong>(和<strong>-</strong> 运算符对应)<br>测试代码如下<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*************************************************************************</span></span><br><span class="line"><span class="comment">    &gt; File Name: cout_uint8.cpp</span></span><br><span class="line"><span class="comment">    &gt; Author: ce39906</span></span><br><span class="line"><span class="comment">    &gt; Mail: ce39906@163.com</span></span><br><span class="line"><span class="comment">    &gt; Created Time: 2018-06-29 13:50:53</span></span><br><span class="line"><span class="comment"> ************************************************************************/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdint&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;typeinfo&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="keyword">uint8_t</span> uint8_num = <span class="number">10</span>;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"uint8_t num is "</span> &lt;&lt; uint8_num &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"after cast to unsigned, uint8_t num is "</span> &lt;&lt; <span class="keyword">unsigned</span>(uint8_num) &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"with a unary + operator, uint8_t num is "</span> &lt;&lt; +uint8_num &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"type of '+uint8_num' is "</span> &lt;&lt; <span class="keyword">typeid</span>(+uint8_num).name() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果如下<br><img src="https://myblog-1256683296.cos.ap-beijing.myqcloud.com/cout_uint8_1.png" alt="avatar"><br>可见使用+运算符的原理也是进行类型转换(把<strong>uint8_t</strong> 转为 <strong>int</strong>)</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="carbo06@163.com" />
+            
+              <p class="site-author-name" itemprop="name">carbo06@163.com</p>
+              <p class="site-description motion-element" itemprop="description">About Linux C++ and routing algorithms.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ce39906" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:ce39906@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Friends
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://lambdae.github.io/" title="DingliYang" target="_blank">DingliYang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://zsirkg.github.io/" title="SongZhang" target="_blank">SongZhang</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">carbo06@163.com</span>
+
+  
+</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+<script type="text/javascript" src="/live2d/script.js"></script>
+<canvas id="live2dcanvas" width="300" height="400" class="live2d"></canvas>
+<style>
+  #live2dcanvas {
+    position: fixed;
+    left: 0px;
+    z-index: 999;
+    pointer-events: none;
+    bottom: -50px;
+  }
+</style>
+<script>loadlive2d("live2dcanvas"
+,"/live2d/models/tororo.model.json",0.5)</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+</body>
+</html>

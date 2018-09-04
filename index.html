@@ -1,0 +1,2682 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/cat-32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/cat-32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/cat-16x16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/cat-32x32.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="About Linux C++ and routing algorithms.">
+<meta name="keywords" content="Linux C++ Routing">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Carbon&#39;s Blog">
+<meta property="og:url" content="https://carbo06.github.io/index.html">
+<meta property="og:site_name" content="Carbon&#39;s Blog">
+<meta property="og:description" content="About Linux C++ and routing algorithms.">
+<meta property="og:locale" content="zh-Hans">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Carbon&#39;s Blog">
+<meta name="twitter:description" content="About Linux C++ and routing algorithms.">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://carbo06.github.io/"/>
+
+
+
+
+
+  <title>Carbon's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left 
+  page-home">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Carbon's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">以梦为马 不负韶华</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://carbo06.github.io/2018/09/03/Tensorflow-解决路况状态分类问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="carbo06@163.com">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carbon's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/03/Tensorflow-解决路况状态分类问题/" itemprop="url">Tensorflow 解决路况状态分类问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-03T21:53:51+08:00">
+                2018-09-03
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-09-03T22:04:06+08:00">
+                2018-09-03
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>路况在地图渲染时候，会针对不同的拥堵情况选择不同颜色。一般来讲，道路拥堵情况分为三个状态，<strong>畅通，拥堵，缓行</strong>，分别用<strong>绿色，黄色，红色</strong>来渲染。<br>我们面临的问题是，已知道路属性以及通行速度，需要对路况状态进行分类。解决方案是依据第三方路况提供的路况状态以及抓取的高德路况状态来训练一个三分类模型。</p>
+<h2 id="特征处理"><a href="#特征处理" class="headerlink" title="特征处理"></a>特征处理</h2><p>应用的特征如下 </p>
+<table>
+<thead>
+<tr>
+<th>feature</th>
+<th style="text-align:center">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>speed</td>
+<td style="text-align:center">路况速度</td>
+</tr>
+<tr>
+<td>maxspeed</td>
+<td style="text-align:center">道路最大速度</td>
+</tr>
+<tr>
+<td>highway_level</td>
+<td style="text-align:center">道路等级,共有17种可能，使用one-hot-encoding</td>
+</tr>
+<tr>
+<td>lanes</td>
+<td style="text-align:center">车道数</td>
+</tr>
+<tr>
+<td>oneway</td>
+<td style="text-align:center">是否是单向路，使用one-hot-encoding</td>
+</tr>
+</tbody>
+</table>
+<p>路况状态使用 <strong>0-1-2</strong> 分别表示<strong>畅通-拥堵-缓行</strong><br>处理好的特征使用<strong>\t</strong>分割的文本处理，最后一列代表路况状态。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/09/03/Tensorflow-解决路况状态分类问题/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://carbo06.github.io/2018/08/25/读书短评-《未来简史》/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="carbo06@163.com">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carbon's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/25/读书短评-《未来简史》/" itemprop="url">读书短评-《未来简史》</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-25T14:56:18+08:00">
+                2018-08-25
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-08-25T14:59:38+08:00">
+                2018-08-25
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Reading/" itemprop="url" rel="index">
+                    <span itemprop="name">Reading</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>断断续续花了三个月才读完，再次（上次是人类简史）惊叹于作者涉猎广阔，博学深刻。kindle上看到进度是90%的时候发现整书就结束了，剩下10%是参考文献。给跪了…<br>书中前半部分一个核心观点是讲从生物角度来看人类与其他高级哺乳动物并无巨大差别，人类所以胜利是依靠出众的合作能力。另一个核心观点是未来人类的目标是追求快乐以及获得永生，这个目标即使可能实现也一定先在领导身上实现，那时死亡这唯一公平的事也不复存在，因此也就很可能引发大的社会危机。<br>后半部分的核心观点是未来生物科技可能会让人变成超人类（当然也是领导先）。基于大量数据的人工智能算法在很多领域的表现会超过人类（包括艺术）。<br>不管啥算法的实现都需要写代码的吧，基于此，我写写代码肯定是足够混口饭吃的。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://carbo06.github.io/2018/08/24/g-warn-unused-result/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="carbo06@163.com">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carbon's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/24/g-warn-unused-result/" itemprop="url">g++ warn_unused_result</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-24T14:39:23+08:00">
+                2018-08-24
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-08-24T14:41:55+08:00">
+                2018-08-24
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Backend-Development/" itemprop="url" rel="index">
+                    <span itemprop="name">Backend Development</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>在编程过程中，有的函数我们需要确保函数的返回值必须被使用。但是如果函数使用者直接调用函数且不使用函数的返回值的话，g++ 不会给出warning。这样可能会导致很难寻觅的bug。如调用<strong>realloc</strong>函数，函数调用者必须使用函数的返回值获得重新分配内存的指针。<br>利用g++ <strong>common function attributes</strong> 中提供的<strong>warn_unused_result</strong> 可以保证函数的返回值在没有被使用的时候提示warning，如果在编译选项添加<strong>-Werror</strong>, 则在编译时就会提示编译错误。关于更多 g++ <strong>common function attributes</strong> 参见<a href="https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html" target="_blank" rel="noopener">https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html</a></p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>测试代码如下<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*************************************************************************</span></span><br><span class="line"><span class="comment">    &gt; File Name: warn_unused_result.cpp</span></span><br><span class="line"><span class="comment">    &gt; Author: ce39906</span></span><br><span class="line"><span class="comment">    &gt; Mail: ce39906@163.com</span></span><br><span class="line"><span class="comment">    &gt; Created Time: 2018-08-24 14:04:00</span></span><br><span class="line"><span class="comment"> ************************************************************************/</span></span><br><span class="line"></span><br><span class="line">__attribute__ ((warn_unused_result))</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x / <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">__attribute__ ((warn_unused_result))</span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">f1</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0.</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EmptyClass</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">__attribute__ ((warn_unused_result))</span><br><span class="line"><span class="function">EmptyClass <span class="title">f2</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> EmptyClass();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NotEmptyClass</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> a;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">__attribute__ ((warn_unused_result))</span><br><span class="line"><span class="function">NotEmptyClass <span class="title">f3</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> NotEmptyClass();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// cause unused_result warning</span></span><br><span class="line">    f(<span class="number">3</span>);</span><br><span class="line">    <span class="comment">// no unused_result warning</span></span><br><span class="line">    <span class="keyword">int</span> x = f(<span class="number">3</span>);</span><br><span class="line">    (<span class="keyword">void</span>) x;</span><br><span class="line">    <span class="comment">// cause unused_result warning</span></span><br><span class="line">    f1();</span><br><span class="line">    <span class="comment">// cause unused_result warning</span></span><br><span class="line">    f2();</span><br><span class="line">    <span class="comment">// no unused_result warning. WHY??</span></span><br><span class="line">    f3();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>编译</p>
+<blockquote>
+<p>g++ -Wall -Wextra warn_unused_result.cpp -o warn_unused_result</p>
+</blockquote>
+<p>编译输出如下<br><img src="https://myblog-1256683296.cos.ap-beijing.myqcloud.com/unused_result_warn.jpg" alt="res"><br>其中比较奇怪的现象是当函数返回一个非空的对象时，不会产生warning，比较诡异，至今没找到合理解释。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://carbo06.github.io/2018/08/08/C-11-智能指针/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="carbo06@163.com">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carbon's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/08/C-11-智能指针/" itemprop="url">C++11 智能指针</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-08T16:49:43+08:00">
+                2018-08-08
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-08-08T17:18:58+08:00">
+                2018-08-08
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Backend-Development/" itemprop="url" rel="index">
+                    <span itemprop="name">Backend Development</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="智能指针的思想"><a href="#智能指针的思想" class="headerlink" title="智能指针的思想"></a>智能指针的思想</h2><p>c++ 要求程序员自己管理内存，为程序员提供了更高自由度，但更高的自由度同时意味着更多责任。为了减少c++程序员在使用裸指针时可能带来的内存泄露，c++11 引入智能指针帮助程序员管理内存。智能指针背后的设计思想是<a href="https://zh.cppreference.com/w/cpp/language/raii" target="_blank" rel="noopener">RAII</a></p>
+<h2 id="unique-ptr"><a href="#unique-ptr" class="headerlink" title="unique_ptr"></a>unique_ptr</h2><p>unique_ptr 设计的目的是保证指针变量只指向一个实体，避免出现有其他指针变量指向相同实体，或者此指针变量指向同类型的其他实体。可以理解为指针变量与实体之间是一对一的关系。<br>为了实现上述设计目标，unique_ptr 的拷贝构造函数以及赋值构造函数都声明为<strong>deleted</strong>(c++11引入，和将拷贝构造函数以及赋值构造函数声明为private实现的效果一致)。所以unique_ptr 只允许使用裸指针初始化或者使用其他unique_ptr移动构造。比较特殊的是，一个新的unique_ptr变量可以从返回值为unique_ptr的函数构造。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">unique_ptr</span>&lt;<span class="keyword">int</span>&gt; p(<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">2</span>));   <span class="comment">// allowed</span></span><br><span class="line"><span class="built_in">unique_ptr</span>&lt;<span class="keyword">int</span>&gt; p1(p);     <span class="comment">// not allowed</span></span><br><span class="line"><span class="built_in">unique_ptr</span>&lt;<span class="keyword">int</span>&gt; p2 = p;  <span class="comment">// not allowed</span></span><br><span class="line"><span class="built_in">unique_ptr</span>&lt;<span class="keyword">int</span>&gt; p3(<span class="built_in">std</span>::move(p)); <span class="comment">// allowed</span></span><br><span class="line"><span class="built_in">unique_ptr</span>&lt;<span class="keyword">int</span>&gt; p4 = <span class="built_in">std</span>::move(p) <span class="comment">// allowed</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">unique_ptr</span>&lt;<span class="keyword">int</span>&gt; foo()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">unique_ptr</span>&lt;<span class="keyword">int</span>&gt; p(<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">2</span>));</span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">unique_ptr</span>&lt;<span class="keyword">int</span>&gt; p5 = foo();  <span class="comment">// allowed</span></span><br></pre></td></tr></table></figure>
+<p>在引入 unique_ptr 之前，存在一个叫做auto_ptr 的智能指针，auto_ptr 与 unique_ptr 不同点是auto_ptr没有禁止拷贝构造和赋值构造，并且在执行拷贝构造和赋值构造后，之前的指针变量指向null，再次解引用时会产生运行时错误，这就是auto_ptr被广为诟病的地方。unique_ptr只有在被显示移动的时候才会将实体的所有权交给其他变量。现auto_ptr已经弃用。</p>
+<h2 id="shared-ptr"><a href="#shared-ptr" class="headerlink" title="shared_ptr"></a>shared_ptr</h2><p>unique_ptr 实现指针变量与实体之前一一对应关系，但是在实际应用中，我们经常存在多个指针变量共同指向一个实体的场景，当所有指针变量的生命周期结束时再释放相应的资源。shared_ptr 就是为了解决此问题而引入。<br>简单的来讲，shared_ptr 实现的原理是在内部使用一个引用计数，每当有一个新的指针变量绑定到实体上时内部的引用计数加一，如果有指针变量生命周期结束引用计数减一，当引用计数为0时，释放相应资源。<br>shared_ptr 可以使用 <strong>use_count()</strong> 方法查看引用计数大小。<br>在多线程的环境下使用shared_ptr的const成员方法不需要外部的同步机制，使用shared_ptr的非const方法时需要重载shared_ptr的原子方法防止数据竞争。<br><strong>需要注意的是</strong>，shared_ptr的引用计数内部的实现原理是一个原子变量，因此在多线程的环境下有大量的shared_ptr变量的复制以及销毁的话会带来比较大的性能损耗，所以如果新的shared_ptr 变量不需要改变指向的实体的内容时应该按照 <strong>const reference</strong>的方式使用。这个问题在我实际开发中遇到过，问题比较隐蔽，花费了大量时间才定位到。</p>
+<h2 id="weak-ptr"><a href="#weak-ptr" class="headerlink" title="weak_ptr"></a>weak_ptr</h2><h3 id="weak-ptr-的定义"><a href="#weak-ptr-的定义" class="headerlink" title="weak_ptr 的定义"></a>weak_ptr 的定义</h3><p>weak_ptr 是为了配合shared_ptr而引入，weak_ptr 指向shared_ptr 管理的对象但是不会增加shared_ptr内部的引用计数，也就是说，不管是否有weak_ptr 指向对象，只要是shared_ptr的引用计数为0时，对象也会被销毁。weak_ptr 没有重载 * 以及 -&gt; 方法。weak_ptr 提供了use_count 查看观察的shared_ptr的引用计数，使用expired 方法判断shared_ptr 指向的对象是否被销毁，使用lock方法创建一个新的shared_ptr 变量。</p>
+<h3 id="shared-ptr-循环引用问题"><a href="#shared-ptr-循环引用问题" class="headerlink" title="shared_ptr 循环引用问题"></a>shared_ptr 循环引用问题</h3><p>考虑以下代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">    A()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"A construct.\n"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ~A()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"A destruct.\n"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;B&gt; pb;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">    B()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"B construct.\n"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ~B()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"B destruct.\n"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;A&gt; pa;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;A&gt; a(<span class="keyword">new</span> A());</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;B&gt; b(<span class="keyword">new</span> B());</span><br><span class="line"></span><br><span class="line">    a-&gt;pb = b;</span><br><span class="line">    b-&gt;pa = a;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编译后执行结果如下</p>
+<blockquote>
+<p>A construct.<br>B construct.</p>
+</blockquote>
+<p>可以看到，由于互相引用，shared_ptr a 以及 b 所管理的对象都没有释放。我们把上述代码中的类A 以及类B中成员变量都声明为weak_ptr 类型后重新编译运行后的结果如下</p>
+<blockquote>
+<p>A construct.<br>B construct.<br>B destruct.<br>A destruct.</p>
+</blockquote>
+<p>由此可见，weak_ptr 不会增加shared_ptr 的互相引用的问题，可以保证shared_ptr所管理的资源可以正确释放。</p>
+<h3 id="weak-ptr-与观察者模式"><a href="#weak-ptr-与观察者模式" class="headerlink" title="weak_ptr 与观察者模式"></a>weak_ptr 与观察者模式</h3><p>利用weak_ptr的特性，使用weak_ptr 以及shared_ptr配合可以实现<a href="https://zh.wikipedia.org/wiki/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F" target="_blank" rel="noopener">观察者模式</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://carbo06.github.io/2018/08/01/Json-library-implemented-by-boost-variant/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="carbo06@163.com">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carbon's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/01/Json-library-implemented-by-boost-variant/" itemprop="url">Json library implemented by boost variant</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-01T19:20:52+08:00">
+                2018-08-01
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-08-01T19:50:09+08:00">
+                2018-08-01
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Backend-Development/" itemprop="url" rel="index">
+                    <span itemprop="name">Backend Development</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="boost-variant-介绍"><a href="#boost-variant-介绍" class="headerlink" title="boost variant 介绍"></a>boost variant 介绍</h2><p>boost variant 是一个不同union的泛型类，它用于存储和操作不同类型但在使用时存在&lt;相同泛型&gt;的对象。variant 在实现不同类型的泛型的同时，提供对其包含的具体类型的安全访问。<br>基于此性质，boost variant 可以应用于创建json 这种数据结构，我们把json 中的Object, Array, String, Number, True, False, Null 统一当做同一种variant 类型。需要注意的是，json 中的Object 和 Array 类型是递归的variant 类型，在声明时需要使用 <strong>boost::recursive_wrapper</strong> 修饰。<strong>boost::recursivee_wrapper</strong>用于创建包含创建的variant类型的表达式。<br>在访问varint 类型时，可以使用<strong>boost::get<t></t></strong> 以及 <strong>boost::apply_visitor</strong> 的形式。<br>更多关于 boost variant 的介绍见:<br><a href="https://www.boost.org/doc/libs/1_62_0/doc/html/variant/reference.html" target="_blank" rel="noopener">https://www.boost.org/doc/libs/1_62_0/doc/html/variant/reference.html</a></p>
+<h2 id="json-数据结构"><a href="#json-数据结构" class="headerlink" title="json 数据结构"></a>json 数据结构</h2><p>json 的数据类型实现如下<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*************************************************************************</span></span><br><span class="line"><span class="comment">    &gt; File Name: json_type.hpp</span></span><br><span class="line"><span class="comment">    &gt; Author: ce39906</span></span><br><span class="line"><span class="comment">    &gt; Mail: ce39906@163.com</span></span><br><span class="line"><span class="comment">    &gt; Created Time: 2018-07-31 16:25:59</span></span><br><span class="line"><span class="comment"> ************************************************************************/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> JSON_TYPE_HPP</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> JSON_TYPE_HPP</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;boost/variant.hpp&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unordered_map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> json</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Object</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Array</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">String</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    String() &#123;&#125;</span><br><span class="line">    String(<span class="keyword">const</span> <span class="keyword">char</span>* value) : value&#123;value&#125; &#123;&#125;</span><br><span class="line">    String(<span class="built_in">std</span>::<span class="built_in">string</span> value) : value&#123;<span class="built_in">std</span>::move(value)&#125; &#123;&#125;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">string</span> value;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Number</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    Number() &#123;&#125;;</span><br><span class="line">    Number(<span class="keyword">const</span> <span class="keyword">double</span> value) : value&#123;value&#125; &#123;&#125;</span><br><span class="line">    <span class="keyword">double</span> value;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">True</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">False</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Null</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> Value = boost::variant&lt;String,</span><br><span class="line">                             Number,</span><br><span class="line">                             boost::recursive_wrapper&lt;Object&gt;,</span><br><span class="line">                             boost::recursive_wrapper&lt;Array&gt;,</span><br><span class="line">                             True,</span><br><span class="line">                             False,</span><br><span class="line">                             Null&gt;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Object</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isMember</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; key)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> values.count(key) != <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">const</span> Value&amp; <span class="title">at</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; key)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> values.at(key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> Value&amp; <span class="keyword">operator</span>[](<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; key) <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> values.at(key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">unordered_map</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>, Value&gt; values;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Array</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">const</span> Value&amp; <span class="title">at</span><span class="params">(<span class="keyword">const</span> <span class="keyword">size_t</span> idx)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> values.at(idx);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> Value&amp; <span class="keyword">operator</span>[](<span class="keyword">const</span> <span class="keyword">size_t</span> idx) <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> values.at(idx);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">size_t</span> size() <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> values.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">const</span> Value&amp; <span class="title">front</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> values.front();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">const</span> Value&amp; <span class="title">back</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> values.back();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Value&gt; values;</span><br><span class="line">&#125;;</span><br><span class="line">&#125; <span class="comment">// ns json</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure></p>
+<h2 id="json-数据访问"><a href="#json-数据访问" class="headerlink" title="json 数据访问"></a>json 数据访问</h2><p>本节只介绍使用<strong>boost::get<t></t></strong> 访问varint数据。<strong>boost::apply_visitor</strong> 的方式在序列化的部分介绍<br>代码示例如下</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> access</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">const</span> Object&amp; asObject(<span class="keyword">const</span> Value&amp; value)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">return</span> boost::<span class="built_in">get</span>&lt;Object&gt;(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">const</span> Array&amp; asArray(<span class="keyword">const</span> Value&amp; value)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">return</span> boost::<span class="built_in">get</span>&lt;Array&gt;(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">const</span> <span class="keyword">String</span>&amp; asString(<span class="keyword">const</span> Value&amp; value)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">return</span> boost::<span class="built_in">get</span>&lt;<span class="keyword">String</span>&gt;(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">const</span> Number&amp; asNumber(<span class="keyword">const</span> Value&amp; value)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">return</span> boost::<span class="built_in">get</span>&lt;Number&gt;(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">const</span> True&amp; asTrue(<span class="keyword">const</span> Value&amp; value)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">return</span> boost::<span class="built_in">get</span>&lt;True&gt;(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">const</span> False&amp; asFalse(<span class="keyword">const</span> Value&amp; value)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">return</span> boost::<span class="built_in">get</span>&lt;False&gt;(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">const</span> Null&amp; asNull(<span class="keyword">const</span> Value&amp; value)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">return</span> boost::<span class="built_in">get</span>&lt;Null&gt;(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125; <span class="comment">// ns access</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/08/01/Json-library-implemented-by-boost-variant/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://carbo06.github.io/2018/07/26/c-11-右值引用-移动构造函数-emplace-back-解析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="carbo06@163.com">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carbon's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/26/c-11-右值引用-移动构造函数-emplace-back-解析/" itemprop="url">c++11 右值引用,移动构造函数,emplace_back 解析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-26T16:37:04+08:00">
+                2018-07-26
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-09-04T11:26:35+08:00">
+                2018-09-04
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Backend-Development/" itemprop="url" rel="index">
+                    <span itemprop="name">Backend Development</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="右值引用"><a href="#右值引用" class="headerlink" title="右值引用"></a>右值引用</h2><p>C++11 引入了右值引用的概念，使用&amp;&amp;表示。<br>首先简单介绍右值的概念，简单的将，所有赋值语句右侧的都是右值，或者说所有没有名字的变量都是右值。例如</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">int a</span> = 2;</span><br></pre></td></tr></table></figure>
+<p>a 中就是一个左值，相对的，2 就是一个右值。关于右值更详细严谨的介绍见<a href="https://en.cppreference.com/w/cpp/language/value_category" target="_blank" rel="noopener">https://en.cppreference.com/w/cpp/language/value_category</a></p>
+<h2 id="移动构造函数"><a href="#移动构造函数" class="headerlink" title="移动构造函数"></a>移动构造函数</h2><p>在c++11 之前，类包括构造函数，析构函数，拷贝构造函数，赋值构造函数。对于存在指针变量的类来讲，其拷贝构造函数，赋值构造函数必须实现指针变量的深拷贝，这可能会涉及到比较耗时的操作(比如string 类存储了一个超长字符串，在调用其拷贝构造或赋值构造时需要超长字符串的拷贝)。<br>移动构造函数相对拷贝构造函数和赋值构造函数而言不会进行成员变量的深拷贝而是交换其所有权，这样就避免的拷贝时带来的性能损耗。<br>移动构造的函数声明如下</p>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span><span class="number">_n</span>ame ( <span class="keyword">class</span><span class="number">_n</span>ame &amp;&amp; )；</span><br></pre></td></tr></table></figure>
+<h2 id="emplace-back"><a href="#emplace-back" class="headerlink" title="emplace_back"></a>emplace_back</h2><p>c++11 容器新增了 emplace_back, emplace等方法向容器中加入新的元素。以 vector 的emplace_back 为例，其函数声明如下</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">template&lt; <span class="keyword">class</span>... <span class="keyword">Args</span> &gt;</span><br><span class="line">void emplace_back( <span class="keyword">Args</span>&amp;&amp;... <span class="keyword">args</span> );</span><br></pre></td></tr></table></figure>
+<p>emplcae_back 接收一个右值引用，调用其移动构造函数，将对象移动到容器中，而之前的push_back 是调用一次对象的拷贝构造函数， 容器中存储的是拷贝后的副本。</p>
+<h2 id="std-move"><a href="#std-move" class="headerlink" title="std::move"></a>std::move</h2><p>std::move 的作用是将左值转为右值引用类型。</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>示例代码测试了 移动构造函数，emplace_back, push_back, std::move </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*************************************************************************</span></span><br><span class="line"><span class="comment">    &gt; File Name: emplace.cpp</span></span><br><span class="line"><span class="comment">    &gt; Author: ce39906</span></span><br><span class="line"><span class="comment">    &gt; Mail: ce39906@163.com</span></span><br><span class="line"><span class="comment">    &gt; Created Time: 2018-07-26 15:03:11</span></span><br><span class="line"><span class="comment"> ************************************************************************/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">    A (<span class="keyword">const</span> <span class="keyword">int</span> size) : size(size)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (size)</span><br><span class="line">        &#123;</span><br><span class="line">            data = <span class="keyword">new</span> <span class="keyword">char</span>[size];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"I'm constructor.\n"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    A (<span class="keyword">const</span> A&amp; other)</span><br><span class="line">    &#123;</span><br><span class="line">        size = other.size;</span><br><span class="line">        data = <span class="keyword">new</span> <span class="keyword">char</span>[size];</span><br><span class="line">        <span class="built_in">memcpy</span>(data, other.data, size * <span class="keyword">sizeof</span>(<span class="keyword">char</span>));</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"I'm copy constructor.\n"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    A (A&amp;&amp; other)</span><br><span class="line">    &#123;</span><br><span class="line">        size = other.size;</span><br><span class="line">        data = other.data;</span><br><span class="line"></span><br><span class="line">        other.size = <span class="number">0</span>;</span><br><span class="line">        other.data = <span class="literal">nullptr</span>;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"I'm move constructor.\n"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> size;</span><br><span class="line">    <span class="keyword">char</span>* data = <span class="literal">nullptr</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;A&gt; vec;</span><br><span class="line">    vec.reserve(<span class="number">1024</span>);</span><br><span class="line"></span><br><span class="line">    <span class="function">A <span class="title">tmp</span><span class="params">(<span class="number">5</span>)</span></span>;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"push_back a left value.\n"</span>;</span><br><span class="line">    vec.push_back(tmp);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"push_back a right value with std::move.\n"</span>;</span><br><span class="line">    vec.push_back(<span class="built_in">std</span>::move(tmp));</span><br><span class="line"></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"emplace_back a left value.\n"</span>;</span><br><span class="line">    vec.emplace_back(tmp);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"emplace_back a right value with std::move.\n"</span>;</span><br><span class="line">    vec.emplace_back(<span class="built_in">std</span>::move(tmp));</span><br><span class="line"></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"emplace_back in place.\n"</span>;</span><br><span class="line">    vec.emplace_back(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"=========================================\n"</span>;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"test with buildin string move and emplace_back\n"</span>;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"=========================================\n"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt; str_vec;</span><br><span class="line">    str_vec.reserve(<span class="number">1024</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">string</span> str = <span class="string">"I'd like to be inserted to a container"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"before emplace_back to vec, str is:\n"</span>;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; str &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"c_str address is "</span> &lt;&lt; (<span class="keyword">void</span>*) str.c_str() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    str_vec.emplace_back(<span class="built_in">std</span>::move(str));</span><br><span class="line"></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"after emplace_back to vec, str is:\n"</span>;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; str &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"c_str address is "</span> &lt;&lt; (<span class="keyword">void</span>*) str.c_str() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"c_str address of the string in container is "</span></span><br><span class="line">        &lt;&lt; (<span class="keyword">void</span>*) str_vec.front().c_str() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编译代码</p>
+<blockquote>
+<p>g++ –std=c++11 emplace.cpp -o emplace</p>
+</blockquote>
+<p>执行，输出结果如下<br><img src="https://myblog-1256683296.cos.ap-beijing.myqcloud.com/emplace.png" alt="emplace"></p>
+<p>从执行结果中，我们可以得出以下结论</p>
+<ol>
+<li>push_back 可以接收左值也可以接受右值，接收左值时使用拷贝构造，接收右值时使用移动构造</li>
+<li>emplace_back 接收右值时调用类的移动构造</li>
+<li>emplace_back 接收左值时，实际上的执行效果是先对传入的参数进行拷贝构造，然后使用拷贝构造后的副本，<strong>也就是说，emplace_back在接收一个左值的时候其效果和push_back一致！所以在使用emplace_back 时需要确保传入的参数是一个右值引用，如果不是，请使用std::move()进行转换</strong></li>
+<li>emplace_back 接收多个参数时，可以调用匹配的构造函数<strong>实现在容器内的原地构造</strong></li>
+<li>使用string 类验证了移动构造函数式对类成员所有权的传递，从上图中看到string 在插入前c_str的地址和使用emplace_back 移动到容器后的c_str的地址一致。并且移动后字符串c_str 的地址指向其他位置。</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://carbo06.github.io/2018/07/20/Trie-C-实现与解析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="carbo06@163.com">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carbon's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/Trie-C-实现与解析/" itemprop="url">Trie C++ 实现与解析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-20T16:53:07+08:00">
+                2018-07-20
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-09-04T11:25:40+08:00">
+                2018-09-04
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Trie-tree-介绍"><a href="#Trie-tree-介绍" class="headerlink" title="Trie tree 介绍"></a>Trie tree 介绍</h2><p>trie 源自 <strong>retrieval</strong> ,中文称为前缀树或字典树。具体介绍见wiki <a href="https://zh.wikipedia.org/wiki/Trie" target="_blank" rel="noopener">trie</a></p>
+<h2 id="C-实现"><a href="#C-实现" class="headerlink" title="C++ 实现"></a>C++ 实现</h2><p>以下trie实现支持任何语言(Chinese,English,Janpanse…)。主要包括以下三个接口</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用一组词初始化trie.</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Init</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt;&amp; dict)</span></span>;</span><br><span class="line"><span class="comment">// 在trie 中查找word是否存在.</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Lookup</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; word)</span></span>;</span><br><span class="line"><span class="comment">// 返回在trie中所有以word为前缀的词.</span></span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt; Suggest(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; word);</span><br></pre></td></tr></table></figure>
+<p>具体代码实现如下<br>trie.hpp</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*************************************************************************</span></span><br><span class="line"><span class="comment">    &gt; File Name: trie.hpp</span></span><br><span class="line"><span class="comment">    &gt; Author: ce39906</span></span><br><span class="line"><span class="comment">    &gt; Mail: ce39906@163.com</span></span><br><span class="line"><span class="comment">    &gt; Created Time: 2018-07-19 11:12:09</span></span><br><span class="line"><span class="comment"> ************************************************************************/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> TRIE_HPP</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> TRIE_HPP</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> trie</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Trie</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keyword">size_t</span> kAsciiCount = <span class="number">256</span>;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">TrieNode</span></span></span><br><span class="line"><span class="class">    &#123;</span></span><br><span class="line">        TrieNode(<span class="keyword">const</span> <span class="keyword">char</span> val)</span><br><span class="line">          : val(val), is_end(<span class="literal">false</span>), childrens(kAsciiCount, <span class="literal">nullptr</span>)</span><br><span class="line">        &#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">char</span> val;</span><br><span class="line">        <span class="keyword">bool</span> is_end;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;TrieNode*&gt; childrens;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">    Trie()</span><br><span class="line">    &#123;</span><br><span class="line">        root = <span class="keyword">new</span> TrieNode(<span class="string">'0'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ~Trie()</span><br><span class="line">    &#123;</span><br><span class="line">        ReleaseTrie(root);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Trie(<span class="keyword">const</span> Trie&amp;) = <span class="keyword">delete</span>;</span><br><span class="line">    Trie&amp; <span class="keyword">operator</span> = (<span class="keyword">const</span> Trie&amp;) = <span class="keyword">delete</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Init</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt;&amp; dict)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">Lookup</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; word)</span> <span class="keyword">const</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt; Suggest(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; word) <span class="keyword">const</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">PrintSuggs</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; word)</span> <span class="keyword">const</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span>:</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Insert</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; word)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">Search</span><span class="params">(<span class="keyword">const</span> TrieNode* parent, <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; word, <span class="keyword">const</span> <span class="keyword">size_t</span> idx)</span> <span class="keyword">const</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Dfs</span><span class="params">(<span class="keyword">const</span> TrieNode* cur, <span class="built_in">std</span>::<span class="built_in">string</span>&amp; word, <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt;&amp; suggs)</span> <span class="keyword">const</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">ReleaseTrie</span><span class="params">(<span class="keyword">const</span> TrieNode* root)</span></span>;</span><br><span class="line"></span><br><span class="line">    TrieNode* root;</span><br><span class="line">&#125;;</span><br><span class="line">&#125; <span class="comment">// ns trie</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/07/20/Trie-C-实现与解析/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://carbo06.github.io/2018/07/18/LeetCode-Implement-Rand10-Using-Rand7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="carbo06@163.com">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carbon's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/18/LeetCode-Implement-Rand10-Using-Rand7/" itemprop="url">[LeetCode] Implement Rand10() Using Rand7()</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-18T17:50:10+08:00">
+                2018-07-18
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-07-18T17:53:10+08:00">
+                2018-07-18
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>Given a function rand7 which generates a uniform random integer in the range 1 to 7, write a function rand10 which generates a uniform random integer in the range 1 to 10.</p>
+<p>Do NOT use system’s Math.random().</p>
+<p>Example 1:</p>
+<blockquote>
+<p>Input: 1<br>Output: [7]</p>
+</blockquote>
+<p>Example 2:</p>
+<blockquote>
+<p>Input: 2<br>Output: [8,4]</p>
+</blockquote>
+<p>Example 3:</p>
+<blockquote>
+<p>Input: 3<br>Output: [8,1,10]</p>
+</blockquote>
+<p>Note:</p>
+<p>rand7 is predefined.<br>Each testcase has one argument: n, the number of times that rand10 is called.</p>
+<p>rand7 返回均匀分布的1到7，要求根据rand7 实现一个rand10, 要求返回均匀分布的1到10。<br>解决思路是先构建一个randN, N 要求是 10 的整数倍。由randN % 10 可以得到rand10。<br>由rand7 可以得到 rand49 , rand49 通过过滤掉大于等于40 的可以得到 rand40, 进而可以得到rand10。综上，解决思路如下：</p>
+<blockquote>
+<p>rand7 -&gt; rand49 -&gt; rand40 -&gt; rand10</p>
+</blockquote>
+<p>此解决方案可以推广到所有randN 生成randM (N &lt; M) 的场景。</p>
+<h2 id="C-实现"><a href="#C-实现" class="headerlink" title="C++ 实现"></a>C++ 实现</h2><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// The rand7() API is already defined for you.</span></span><br><span class="line"><span class="comment">// int rand7();</span></span><br><span class="line"><span class="comment">// @return a random integer in the range 1 to 7</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">public:</span><br><span class="line">    <span class="built_in">int</span> rand10() &#123;</span><br><span class="line">        <span class="keyword">const</span> <span class="built_in">int</span> <span class="built_in">num</span> = rand40();</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">num</span> % <span class="number">10</span> + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">private:</span><br><span class="line">    <span class="comment">// return 0 ~ 48 randomly</span></span><br><span class="line">    <span class="built_in">int</span> rand49()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">7</span> * (rand7() - <span class="number">1</span>) + rand7() - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// return 0 ~ 39 randomly</span></span><br><span class="line">    <span class="built_in">int</span> rand40()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">int</span> <span class="built_in">num</span> = rand49();</span><br><span class="line">        <span class="keyword">while</span>(<span class="built_in">num</span> &gt;= <span class="number">40</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">num</span> = rand49();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">num</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://carbo06.github.io/2018/07/17/LeetCode-Reordered-Power-of-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="carbo06@163.com">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carbon's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/17/LeetCode-Reordered-Power-of-2/" itemprop="url">[LeetCode] Reordered Power of 2</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-17T19:25:09+08:00">
+                2018-07-17
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-07-17T19:27:37+08:00">
+                2018-07-17
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>Starting with a positive integer N, we reorder the digits in any order (including the original order) such that the leading digit is not zero.</p>
+<p>Return true if and only if we can do this in a way such that the resulting number is a power of 2.</p>
+<p>Example 1:</p>
+<blockquote>
+<p>Input: 1<br>Output: true</p>
+</blockquote>
+<p>Example 2:</p>
+<blockquote>
+<p>Input: 10<br>Output: false</p>
+</blockquote>
+<p>Example 3:</p>
+<blockquote>
+<p>Input: 16<br>Output: true</p>
+</blockquote>
+<p>Example 4:</p>
+<blockquote>
+<p>Input: 24<br>Output: false</p>
+</blockquote>
+<p>Example 5:</p>
+<blockquote>
+<p>Input: 46<br>Output: true</p>
+</blockquote>
+<p>Note:<br>1 &lt;= N &lt;= 10^9</p>
+<p>输入是正整数，要求 求对数字排列后得到的数是否存在一个是2的整数次幂。<br>解决思路是将N转为string,然后利用stl 提供的next_permutation 获得所有排列，遍历所有情况检查是否存在2的整数次幂。</p>
+<h2 id="C-实现"><a href="#C-实现" class="headerlink" title="C++ 实现"></a>C++ 实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">reorderedPowerOf2</span><span class="params">(<span class="keyword">int</span> N)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">string</span> str_num = to_string(N);</span><br><span class="line">        <span class="comment">// 使用next_permutation 之前应排序</span></span><br><span class="line">        sort(str_num.begin(), str_num.end());</span><br><span class="line">        <span class="keyword">do</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (str_num.front() == <span class="string">'0'</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (isPowerOf2(stoi(str_num)))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">while</span>(next_permutation(str_num.begin(), str_num.end()));</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isPowerOf2</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> num)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (num &amp; num - <span class="number">1</span>) == <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://carbo06.github.io/2018/07/16/LeetCode-Split-Linked-List-in-Parts/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="carbo06@163.com">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carbon's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/16/LeetCode-Split-Linked-List-in-Parts/" itemprop="url">[LeetCode] Split Linked List in Parts</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-16T11:47:49+08:00">
+                2018-07-16
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-07-16T11:49:17+08:00">
+                2018-07-16
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>Given a (singly) linked list with head node root, write a function to split the linked list into k consecutive linked list “parts”.</p>
+<p>The length of each part should be as equal as possible: no two parts should have a size differing by more than 1. This may lead to some parts being null.</p>
+<p>The parts should be in order of occurrence in the input list, and parts occurring earlier should always have a size greater than or equal parts occurring later.</p>
+<p>Return a List of ListNode’s representing the linked list parts that are formed.</p>
+<p>Examples 1-&gt;2-&gt;3-&gt;4, k = 5 // 5 equal parts [ [1], [2], [3], [4], null ]<br>Example 1:</p>
+<blockquote>
+<p>Input:<br>root = [1, 2, 3], k = 5<br>Output: [[1],[2],[3],[],[]]<br>Explanation:<br>The input and each element of the output are ListNodes, not arrays.<br>For example, the input root has root.val = 1, root.next.val = 2, \root.next.next.val = 3, and root.next.next.next = null.<br>The first element output[0] has output[0].val = 1, output[0].next = null.<br>The last element output[4] is null, but it’s string representation as a ListNode is [].</p>
+</blockquote>
+<p>Example 2:</p>
+<blockquote>
+<p>Input:<br>root = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], k = 3<br>Output: [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10]]<br>Explanation:<br>The input has been split into consecutive parts with size difference at most 1, and earlier parts are a larger size than the later parts.<br>Note:</p>
+</blockquote>
+<p>The length of root will be in the range [0, 1000].<br>Each value of a node in the input will be an integer in the range [0, 999].<br>k will be an integer in the range [1, 50].<br>输入是一个链表，要求把链表尽量平分为k 份，如果不能完全平分，要求划分后的每部分最多相差不超过一个且size 更大的部分处于相对前面的位置。<br>解题思路是遍历一遍求出链表的长度，然后求出每部分的长度以及不能平分的长度。顺序遍历链表，按照分组要求不断截断链表后插入。</p>
+<h2 id="C-实现"><a href="#C-实现" class="headerlink" title="C++ 实现"></a>C++ 实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;ListNode*&gt; splitListToParts(ListNode* root, <span class="keyword">int</span> k) &#123;</span><br><span class="line">        <span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line">        ListNode* x = root;</span><br><span class="line">        <span class="keyword">while</span>(x)</span><br><span class="line">        &#123;</span><br><span class="line">            size++;</span><br><span class="line">            x = x-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">int</span> part_size = size / k;</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">int</span> left = size % k;</span><br><span class="line">        <span class="comment">// 直接初始化大小为k的数组，这样不需要对part_size为0的情况进行特殊处理</span></span><br><span class="line">        <span class="built_in">vector</span>&lt;ListNode*&gt; res(k);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; k &amp;&amp; root; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            res[i] = root;</span><br><span class="line">            <span class="comment">// 前面几个部分需要均摊掉left的部分，每部分消费一个</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; part_size + (i &lt; left); j++)</span><br><span class="line">            &#123;</span><br><span class="line">                root = root-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            ListNode* next = root-&gt;next;</span><br><span class="line">            <span class="comment">// 截断链表</span></span><br><span class="line">            root-&gt;next = <span class="literal">nullptr</span>;</span><br><span class="line">            <span class="comment">// 更新游标位置</span></span><br><span class="line">            root = next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="carbo06@163.com" />
+            
+              <p class="site-author-name" itemprop="name">carbo06@163.com</p>
+              <p class="site-description motion-element" itemprop="description">About Linux C++ and routing algorithms.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ce39906" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:ce39906@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Friends
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://lambdae.github.io/" title="DingliYang" target="_blank">DingliYang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://zsirkg.github.io/" title="SongZhang" target="_blank">SongZhang</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">carbo06@163.com</span>
+
+  
+</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+<script type="text/javascript" src="/live2d/script.js"></script>
+<canvas id="live2dcanvas" width="300" height="400" class="live2d"></canvas>
+<style>
+  #live2dcanvas {
+    position: fixed;
+    left: 0px;
+    z-index: 999;
+    pointer-events: none;
+    bottom: -50px;
+  }
+</style>
+<script>loadlive2d("live2dcanvas"
+,"/live2d/models/tororo.model.json",0.5)</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+</body>
+</html>

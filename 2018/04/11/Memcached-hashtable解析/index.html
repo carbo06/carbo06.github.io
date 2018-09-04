@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/cat-32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/cat-32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/cat-16x16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/cat-32x32.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Memcached hashtable," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="介绍Memcached中实现了高性能的hashtable。其解决hash冲突的方法采用拉链法。当hashtable 中存储的item个数大于容器大小的1.5倍的时候通知线程进行hashtable 扩容，为了保证在扩容期间的读写性能，扩容线程默认每次只迁移一个bucket。设置一个变量标识当前的迁移进度，在进行读写操作时根据此变量确定是去 old_hashtable 还是 primary_hasht">
+<meta name="keywords" content="Memcached hashtable">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Memcached hashtable解析">
+<meta property="og:url" content="https://carbo06.github.io/2018/04/11/Memcached-hashtable解析/index.html">
+<meta property="og:site_name" content="Carbon&#39;s Blog">
+<meta property="og:description" content="介绍Memcached中实现了高性能的hashtable。其解决hash冲突的方法采用拉链法。当hashtable 中存储的item个数大于容器大小的1.5倍的时候通知线程进行hashtable 扩容，为了保证在扩容期间的读写性能，扩容线程默认每次只迁移一个bucket。设置一个变量标识当前的迁移进度，在进行读写操作时根据此变量确定是去 old_hashtable 还是 primary_hasht">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-11T09:10:26.420Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Memcached hashtable解析">
+<meta name="twitter:description" content="介绍Memcached中实现了高性能的hashtable。其解决hash冲突的方法采用拉链法。当hashtable 中存储的item个数大于容器大小的1.5倍的时候通知线程进行hashtable 扩容，为了保证在扩容期间的读写性能，扩容线程默认每次只迁移一个bucket。设置一个变量标识当前的迁移进度，在进行读写操作时根据此变量确定是去 old_hashtable 还是 primary_hasht">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://carbo06.github.io/2018/04/11/Memcached-hashtable解析/"/>
+
+
+
+
+
+  <title>Memcached hashtable解析 | Carbon's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Carbon's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">以梦为马 不负韶华</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://carbo06.github.io/2018/04/11/Memcached-hashtable解析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="carbo06@163.com">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carbon's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Memcached hashtable解析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-11T12:45:44+08:00">
+                2018-04-11
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-04-11T17:10:26+08:00">
+                2018-04-11
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Backend-Development/" itemprop="url" rel="index">
+                    <span itemprop="name">Backend Development</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/11/Memcached-hashtable解析/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/04/11/Memcached-hashtable解析/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>Memcached中实现了高性能的hashtable。其解决hash冲突的方法采用拉链法。当hashtable 中存储的item个数大于容器大小的1.5倍的时候通知线程进行hashtable 扩容，为了保证在扩容期间的读写性能，扩容线程默认每次只迁移一个bucket。设置一个变量标识当前的迁移进度，在进行读写操作时根据此变量确定是去 <strong>old_hashtable</strong> 还是 <strong>primary_hashtable</strong> 进行操作。</p>
+<h1 id="代码解析"><a href="#代码解析" class="headerlink" title="代码解析"></a>代码解析</h1><h2 id="主要接口"><a href="#主要接口" class="headerlink" title="主要接口"></a>主要接口</h2><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*数组的大小都是2指数次幂，这样的好处是可以将 index % hashsize </span></span><br><span class="line"><span class="comment">变为 index &amp; hashmask*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> hashsize(n) ((ub4)1&lt;&lt;(n))</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> hashmask(n) (hashsize(n)-1)</span></span><br><span class="line"><span class="comment">// 初始化函数的作用是为主表分配空间</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">assoc_init</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> hashtable_init)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (hashtable_init) &#123;</span><br><span class="line">        hashpower = hashtable_init;</span><br><span class="line">    &#125;</span><br><span class="line">    primary_hashtable = <span class="built_in">calloc</span>(hashsize(hashpower), <span class="keyword">sizeof</span>(<span class="keyword">void</span> *));</span><br><span class="line">    <span class="keyword">if</span> (! primary_hashtable) &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Failed to init hashtable.\n"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">    &#125;</span><br><span class="line">    STATS_LOCK();</span><br><span class="line">    stats_state.hash_power_level = hashpower;</span><br><span class="line">    stats_state.hash_bytes = hashsize(hashpower) * <span class="keyword">sizeof</span>(<span class="keyword">void</span> *);</span><br><span class="line">    STATS_UNLOCK();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><p>hash 查找的逻辑是优先使用hash 预算定位到bucket,然后循环bucket 链表找到指定的key。需要理解的地方在于查找时可能存在hashtable 正在进行扩展，所以需要确定是在<strong>old_hashtable</strong>还是 <strong>primary_hashtable</strong> 进行查找。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">item *<span class="title">assoc_find</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *key, <span class="keyword">const</span> <span class="keyword">size_t</span> nkey, <span class="keyword">const</span> <span class="keyword">uint32_t</span> hv)</span> </span>&#123;</span><br><span class="line">    item *it;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> oldbucket;</span><br><span class="line">    <span class="comment">/* expanding 标识扩展是否完成。</span></span><br><span class="line"><span class="comment">    expand_bucket表示当前扩展的进度，使用位与操作查找bucket位置 */</span></span><br><span class="line">    <span class="keyword">if</span> (expanding &amp;&amp;</span><br><span class="line">        (oldbucket = (hv &amp; hashmask(hashpower - <span class="number">1</span>))) &gt;= expand_bucket)</span><br><span class="line">    &#123;</span><br><span class="line">        it = old_hashtable[oldbucket];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        it = primary_hashtable[hv &amp; hashmask(hashpower)];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    item *ret = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">int</span> depth = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 循环单链表查找指定key</span></span><br><span class="line">    <span class="keyword">while</span> (it) &#123;</span><br><span class="line">        <span class="keyword">if</span> ((nkey == it-&gt;nkey) &amp;&amp; (<span class="built_in">memcmp</span>(key, ITEM_key(it), nkey) == <span class="number">0</span>)) &#123;</span><br><span class="line">            ret = it;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        it = it-&gt;h_next;</span><br><span class="line">        ++depth;</span><br><span class="line">    &#125;</span><br><span class="line">    MEMCACHED_ASSOC_FIND(key, nkey, depth);</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h3><p>插入的主要逻辑是找到指定桶的位置，将当前插入的节点设置为桶中位置的链表头结点位置，并且重新设置桶中元素的value<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">int</span> assoc_insert(<span class="keyword">item </span>*<span class="keyword">it, </span>const uint32_t hv) &#123;</span><br><span class="line">    unsigned int oldbucket<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">//  <span class="meta">assert</span>(assoc_find(<span class="keyword">ITEM_key(it), </span><span class="keyword">it-&gt;nkey) </span>== <span class="number">0</span>)<span class="comment">;  /* shouldn't have duplicately named things defined */</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">if</span> (expanding &amp;&amp;</span><br><span class="line">        (oldbucket = (hv &amp; hashmask(hashpower - <span class="number">1</span>))) &gt;= expand_bucket)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">it-&gt;h_next </span>= old_hashtable[oldbucket]<span class="comment">;</span></span><br><span class="line">        old_hashtable[oldbucket] = <span class="keyword">it;</span></span><br><span class="line"><span class="keyword"> </span>   &#125; <span class="meta">else</span> &#123;</span><br><span class="line">        <span class="keyword">it-&gt;h_next </span>= primary_hashtable[hv &amp; hashmask(hashpower)]<span class="comment">;</span></span><br><span class="line">        primary_hashtable[hv &amp; hashmask(hashpower)] = <span class="keyword">it;</span></span><br><span class="line"><span class="keyword"> </span>   &#125;</span><br><span class="line"></span><br><span class="line">    MEMCACHED_ASSOC_INSERT(<span class="keyword">ITEM_key(it), </span><span class="keyword">it-&gt;nkey);</span></span><br><span class="line"><span class="keyword"> </span>   return <span class="number">1</span><span class="comment">;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>删除接口的主要逻辑是使用<strong>_hashitem_before</strong> 函数找到要删除item前一个item指针位置，然后将此指针的位置直接指向被删除item 的下一个item 位置<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">assoc_delete</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *key, <span class="keyword">const</span> size_t nkey, <span class="keyword">const</span> uint32_t hv)</span> </span>&#123;</span><br><span class="line">    item **<span class="keyword">before</span> = <span class="title">_hashitem_before</span>(key, nkey, hv);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (*<span class="keyword">before</span>) &#123;</span><br><span class="line">        item *nxt;</span><br><span class="line">        <span class="comment">/* The DTrace probe cannot be triggered as the last instruction</span></span><br><span class="line"><span class="comment">         * due to possible tail-optimization by the compiler</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        MEMCACHED_ASSOC_DELETE(key, nkey);</span><br><span class="line">        nxt = (*<span class="keyword">before</span>)-&gt;h_next;</span><br><span class="line">        (*<span class="keyword">before</span>)-&gt;h_next = <span class="number">0</span>;   <span class="comment">/* probably pointless, but whatever. */</span></span><br><span class="line">        *<span class="keyword">before</span> = nxt;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    /* Note:  we never actually get here.  the callers don't delete things</span><br><span class="line">       they can't find. */</span><br><span class="line">    <span class="title">assert</span>(*<span class="keyword">before</span> != 0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="其他辅助函数"><a href="#其他辅助函数" class="headerlink" title="其他辅助函数"></a>其他辅助函数</h2><h3 id="hashitem-before"><a href="#hashitem-before" class="headerlink" title="_hashitem_before"></a>_hashitem_before</h3><p>函数的作用是查找给定item的前一个节点的指针，在delete 接口中调用<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> item** _hashitem_before (<span class="keyword">const</span> <span class="keyword">char</span> *key, <span class="keyword">const</span> <span class="keyword">size_t</span> nkey, <span class="keyword">const</span> <span class="keyword">uint32_t</span> hv) &#123;</span><br><span class="line">    item **pos;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> oldbucket;</span><br><span class="line">    <span class="comment">// 同理是确定是在old_hashtable 还是在primary_hashtable</span></span><br><span class="line">    <span class="keyword">if</span> (expanding &amp;&amp;</span><br><span class="line">        (oldbucket = (hv &amp; hashmask(hashpower - <span class="number">1</span>))) &gt;= expand_bucket)</span><br><span class="line">    &#123;</span><br><span class="line">        pos = &amp;old_hashtable[oldbucket];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        pos = &amp;primary_hashtable[hv &amp; hashmask(hashpower)];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 从头结点的位置开始顺序遍历单链表中的节点</span></span><br><span class="line">    <span class="keyword">while</span> (*pos &amp;&amp; ((nkey != (*pos)-&gt;nkey) || <span class="built_in">memcmp</span>(key, ITEM_key(*pos), nkey))) &#123;</span><br><span class="line">        pos = &amp;(*pos)-&gt;h_next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="assoc-expand"><a href="#assoc-expand" class="headerlink" title="assoc_expand"></a>assoc_expand</h3><p>函数的作用是执行hash表的扩容，执行的过程是将当前<strong>primary_hashtable</strong> 指定为<strong>old_hashtable</strong>, 为<strong>primary_hashtable</strong> 分配内存,<strong>primary_hashtable</strong>的大小是<strong>old_hashtable</strong> 的两倍，将标识是否在扩展的bool型变量 <strong>expanding</strong> 设置为true。将标识扩展进度的变量<strong>expand_bucket</strong>设置为0<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* grows the hashtable to the next power of 2. */</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">assoc_expand</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    old_hashtable = primary_hashtable;</span><br><span class="line"></span><br><span class="line">    primary_hashtable = <span class="built_in">calloc</span>(hashsize(hashpower + <span class="number">1</span>), <span class="keyword">sizeof</span>(<span class="keyword">void</span> *));</span><br><span class="line">    <span class="keyword">if</span> (primary_hashtable) &#123;</span><br><span class="line">        <span class="keyword">if</span> (settings.verbose &gt; <span class="number">1</span>)</span><br><span class="line">            <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Hash table expansion starting\n"</span>);</span><br><span class="line">        hashpower++;</span><br><span class="line">        expanding = <span class="literal">true</span>;</span><br><span class="line">        expand_bucket = <span class="number">0</span>;</span><br><span class="line">        STATS_LOCK();</span><br><span class="line">        stats_state.hash_power_level = hashpower;</span><br><span class="line">        stats_state.hash_bytes += hashsize(hashpower) * <span class="keyword">sizeof</span>(<span class="keyword">void</span> *);</span><br><span class="line">        stats_state.hash_is_expanding = <span class="literal">true</span>;</span><br><span class="line">        STATS_UNLOCK();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        primary_hashtable = old_hashtable;</span><br><span class="line">        <span class="comment">/* Bad news, but we can keep running. */</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="assoc-start-expand"><a href="#assoc-start-expand" class="headerlink" title="assoc_start_expand"></a>assoc_start_expand</h3><p>函数的作用判断是否进行扩展，进行扩展的临界条件是hashtable 中item 个数大于hash 桶数的1.5倍。满足此临界条件时通知扩展线程进行扩展<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">assoc_start_expand</span><span class="params">(<span class="keyword">uint64_t</span> curr_items)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (started_expanding)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (curr_items &gt; (hashsize(hashpower) * <span class="number">3</span>) / <span class="number">2</span> &amp;&amp;</span><br><span class="line">          hashpower &lt; HASHPOWER_MAX) &#123;</span><br><span class="line">        started_expanding = <span class="literal">true</span>;</span><br><span class="line">        pthread_cond_signal(&amp;maintenance_cond);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="start-assoc-maintenance-thread"><a href="#start-assoc-maintenance-thread" class="headerlink" title="start_assoc_maintenance_thread"></a>start_assoc_maintenance_thread</h3><p>函数的作用是创建hash 扩展线程，可以根据用户指定的参数设置每次扩展多少个bucket。如果不指定此参数的话，默认每次只扩展一个bucket<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">start_assoc_maintenance_thread</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ret;</span><br><span class="line">    <span class="keyword">char</span> *env = getenv(<span class="string">"MEMCACHED_HASH_BULK_MOVE"</span>);</span><br><span class="line">    <span class="keyword">if</span> (env != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        hash_bulk_move = atoi(env);</span><br><span class="line">        <span class="keyword">if</span> (hash_bulk_move == <span class="number">0</span>) &#123;</span><br><span class="line">            hash_bulk_move = DEFAULT_HASH_BULK_MOVE;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    pthread_mutex_init(&amp;maintenance_lock, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="keyword">if</span> ((ret = pthread_create(&amp;maintenance_tid, <span class="literal">NULL</span>,</span><br><span class="line">                              assoc_maintenance_thread, <span class="literal">NULL</span>)) != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Can't create thread: %s\n"</span>, strerror(ret));</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="assoc-maintenance-thread"><a href="#assoc-maintenance-thread" class="headerlink" title="assoc_maintenance_thread"></a>assoc_maintenance_thread</h3><p>函数的作用是执行实际的bucket 扩展。具体解释见注释<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> *<span class="title">assoc_maintenance_thread</span><span class="params">(<span class="keyword">void</span> *arg)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    mutex_lock(&amp;maintenance_lock);</span><br><span class="line">    <span class="keyword">while</span> (do_run_maintenance_thread) &#123;</span><br><span class="line">        <span class="keyword">int</span> ii = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* There is only one expansion thread, so no need to global lock. */</span></span><br><span class="line">        <span class="comment">// 循环每次扩展的全部bucket</span></span><br><span class="line">        <span class="keyword">for</span> (ii = <span class="number">0</span>; ii &lt; hash_bulk_move &amp;&amp; expanding; ++ii) &#123;</span><br><span class="line">            item *it, *next;</span><br><span class="line">            <span class="keyword">unsigned</span> <span class="keyword">int</span> bucket;</span><br><span class="line">            <span class="keyword">void</span> *item_lock = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">/* bucket = hv &amp; hashmask(hashpower) =&gt;the bucket of hash table</span></span><br><span class="line"><span class="comment">             * is the lowest N bits of the hv, and the bucket of item_locks is</span></span><br><span class="line"><span class="comment">             *  also the lowest M bits of hv, and N is greater than M.</span></span><br><span class="line"><span class="comment">             *  So we can process expanding with only one item_lock. cool! */</span></span><br><span class="line">            <span class="comment">/* expand_bucket需要锁保护,由于处于同一个bucket</span></span><br><span class="line"><span class="comment">             中的特性是这些item 的hv 的低N位是完全相同，对应的</span></span><br><span class="line"><span class="comment">             item_lock 的位置靠hv 的低M位确定，由于item_lock</span></span><br><span class="line"><span class="comment">             数组大小小于桶数组的大小，所以有 M &lt; N ,也就是说处</span></span><br><span class="line"><span class="comment">             于同一个桶中的item拥有相同item_lock,所以在遍历桶中</span></span><br><span class="line"><span class="comment">             所有的item 的时候不需要在额外获取item_lock。这里的</span></span><br><span class="line"><span class="comment">             设计非常精妙~ */</span></span><br><span class="line">            <span class="keyword">if</span> ((item_lock = item_trylock(expand_bucket))) &#123;</span><br><span class="line">                    <span class="comment">/* 遍历bucket 中全部item,插入到</span></span><br><span class="line"><span class="comment">                    primary_hashtable 中相应bucket */</span></span><br><span class="line">                    <span class="keyword">for</span> (it = old_hashtable[expand_bucket]; <span class="literal">NULL</span> != it; it = next) &#123;</span><br><span class="line">                        next = it-&gt;h_next;</span><br><span class="line">                        bucket = hash(ITEM_key(it), it-&gt;nkey) &amp; hashmask(hashpower);</span><br><span class="line">                        it-&gt;h_next = primary_hashtable[bucket];</span><br><span class="line">                        primary_hashtable[bucket] = it;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">// old_hashtable 中bucket 内容设置为空</span></span><br><span class="line">                    old_hashtable[expand_bucket] = <span class="literal">NULL</span>;</span><br><span class="line">                    <span class="comment">// 维护当前扩展的进度</span></span><br><span class="line">                    expand_bucket++;</span><br><span class="line">                    <span class="comment">/* 如果扩展已经全部完成则设置expanding为</span></span><br><span class="line"><span class="comment">                    false ,释放old_hashtable 的内存*/</span></span><br><span class="line">                    <span class="keyword">if</span> (expand_bucket == hashsize(hashpower - <span class="number">1</span>)) &#123;</span><br><span class="line">                        expanding = <span class="literal">false</span>;</span><br><span class="line">                        <span class="built_in">free</span>(old_hashtable);</span><br><span class="line">                        STATS_LOCK();</span><br><span class="line">                        stats_state.hash_bytes -= hashsize(hashpower - <span class="number">1</span>) * <span class="keyword">sizeof</span>(<span class="keyword">void</span> *);</span><br><span class="line">                        stats_state.hash_is_expanding = <span class="literal">false</span>;</span><br><span class="line">                        STATS_UNLOCK();</span><br><span class="line">                        <span class="keyword">if</span> (settings.verbose &gt; <span class="number">1</span>)</span><br><span class="line">                            <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Hash table expansion done\n"</span>);</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                usleep(<span class="number">10</span>*<span class="number">1000</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 释放资源</span></span><br><span class="line">            <span class="keyword">if</span> (item_lock) &#123;</span><br><span class="line">                item_trylock_unlock(item_lock);</span><br><span class="line">                item_lock = <span class="literal">NULL</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 如果不在进行扩展，则设置条件变量，等待被触发扩展</span></span><br><span class="line">        <span class="keyword">if</span> (!expanding) &#123;</span><br><span class="line">            <span class="comment">/* We are done expanding.. just wait for next invocation */</span></span><br><span class="line">            started_expanding = <span class="literal">false</span>;</span><br><span class="line">            pthread_cond_wait(&amp;maintenance_cond, &amp;maintenance_lock);</span><br><span class="line">            <span class="comment">/* assoc_expand() swaps out the hash table entirely, so we need</span></span><br><span class="line"><span class="comment">             * all threads to not hold any references related to the hash</span></span><br><span class="line"><span class="comment">             * table while this happens.</span></span><br><span class="line"><span class="comment">             * This is instead of a more complex, possibly slower algorithm to</span></span><br><span class="line"><span class="comment">             * allow dynamic hash table expansion without causing significant</span></span><br><span class="line"><span class="comment">             * wait times.</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            pause_threads(PAUSE_ALL_THREADS);</span><br><span class="line">            assoc_expand();</span><br><span class="line">            pause_threads(RESUME_ALL_THREADS);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h1><p>memcached 使用分段锁实现hashtable 线程安全，分段锁避免了hashtable 中全部的item公用一个锁，公用一个锁的会降低hashtable 的读写性能。下面部分代码是memcached 初始化分段锁数组的逻辑。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (nthreads &lt; <span class="number">3</span>) &#123;</span><br><span class="line">    power = <span class="number">10</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (nthreads &lt; <span class="number">4</span>) &#123;</span><br><span class="line">    power = <span class="number">11</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (nthreads &lt; <span class="number">5</span>) &#123;</span><br><span class="line">    power = <span class="number">12</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (nthreads &lt;= <span class="number">10</span>) &#123;</span><br><span class="line">    power = <span class="number">13</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (nthreads &lt;= <span class="number">20</span>) &#123;</span><br><span class="line">    power = <span class="number">14</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">/* 32k buckets. just under the hashpower default. */</span></span><br><span class="line">    power = <span class="number">15</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* 保证分段锁的数目小于hashtable 桶的个数，这样设计的好处之一</span></span><br><span class="line"><span class="comment">是在扩展的时候针对一个桶中的所有item 对应的是同一个</span></span><br><span class="line"><span class="comment">item_lock*/</span></span><br><span class="line"><span class="keyword">if</span> (power &gt;= hashpower) &#123;</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Hash table power size (%d) cannot be equal to or less than item lock table (%d)\n"</span>, hashpower, power);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Item lock table grows with `-t N` (worker threadcount)\n"</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Hash table grows with `-o hashpower=N` \n"</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">item_lock_count = hashsize(power);</span><br><span class="line">item_lock_hashpower = power;</span><br><span class="line"><span class="comment">// 分配分段锁数组</span></span><br><span class="line">item_locks = <span class="built_in">calloc</span>(item_lock_count, <span class="keyword">sizeof</span>(<span class="keyword">pthread_mutex_t</span>));</span><br><span class="line"><span class="keyword">if</span> (! item_locks) &#123;</span><br><span class="line">    perror(<span class="string">"Can't allocate item locks"</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在对hashtable 进行多线程读写时，首先需要根据hash 算法计算出hv 值，然后根据hv 获取item_lock,获取到item_lock 之后再进行读写操作。这也从侧面解释了为什么memcached在扩展时默认每次只扩展一个bucket，因为在进行扩展的时候需要占有item_lock，每次执行扩展的bucket 数多会影响读写性能。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>memcached 的hashtable是典型的拉链式hashtable,实现代码短小易读，使用一个线程进行hashtable的扩展以保证不会出现item增多导致哈希冲突激增降低读写性能的现象，除此之外使用分段锁来保证多线程的读写安全，相比全局锁也可以提升读写性能。memcached hashsize设置为2的整数次幂的设计非常精妙，首先这样可以将查找hash bucket索引的取余操作转化为对（hashsize-1）取按位与操作，在加上分段锁的数目大小小于hashsize 的设置可以保证一个bucket 中所有的item 对应于同一个分段锁，进而保证在扩展bucket中全部内容时只需要获取一次分段锁!</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Donate</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="carbo06@163.com 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="carbo06@163.com 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Memcached-hashtable/" rel="tag"># Memcached hashtable</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/10/C-内存数据结构与二进制文件之间的序列化和反序列化/" rel="next" title="C++ 内存数据结构与二进制文件之间的序列化和反序列化">
+                <i class="fa fa-chevron-left"></i> C++ 内存数据结构与二进制文件之间的序列化和反序列化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/17/Leveldb-varint-解析/" rel="prev" title="Leveldb varint 解析">
+                Leveldb varint 解析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="carbo06@163.com" />
+            
+              <p class="site-author-name" itemprop="name">carbo06@163.com</p>
+              <p class="site-description motion-element" itemprop="description">About Linux C++ and routing algorithms.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ce39906" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:ce39906@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Friends
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://lambdae.github.io/" title="DingliYang" target="_blank">DingliYang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://zsirkg.github.io/" title="SongZhang" target="_blank">SongZhang</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码解析"><span class="nav-number">2.</span> <span class="nav-text">代码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#主要接口"><span class="nav-number">2.1.</span> <span class="nav-text">主要接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化"><span class="nav-number">2.1.1.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找"><span class="nav-number">2.1.2.</span> <span class="nav-text">查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插入"><span class="nav-number">2.1.3.</span> <span class="nav-text">插入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除"><span class="nav-number">2.1.4.</span> <span class="nav-text">删除</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他辅助函数"><span class="nav-number">2.2.</span> <span class="nav-text">其他辅助函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hashitem-before"><span class="nav-number">2.2.1.</span> <span class="nav-text">_hashitem_before</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#assoc-expand"><span class="nav-number">2.2.2.</span> <span class="nav-text">assoc_expand</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#assoc-start-expand"><span class="nav-number">2.2.3.</span> <span class="nav-text">assoc_start_expand</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#start-assoc-maintenance-thread"><span class="nav-number">2.2.4.</span> <span class="nav-text">start_assoc_maintenance_thread</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#assoc-maintenance-thread"><span class="nav-number">2.2.5.</span> <span class="nav-text">assoc_maintenance_thread</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#线程安全"><span class="nav-number">3.</span> <span class="nav-text">线程安全</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">carbo06@163.com</span>
+
+  
+</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: decodeURI(window.location.pathname).substring(0,20), 
+            owner: 'ce39906',
+            repo: 'gitment',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '3a1beedc308144127ed5d8ab972048d6d1ec518c',
+            
+                client_id: '7af8980cc9bd208dffa7'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+<script type="text/javascript" src="/live2d/script.js"></script>
+<canvas id="live2dcanvas" width="300" height="400" class="live2d"></canvas>
+<style>
+  #live2dcanvas {
+    position: fixed;
+    left: 0px;
+    z-index: 999;
+    pointer-events: none;
+    bottom: -50px;
+  }
+</style>
+<script>loadlive2d("live2dcanvas"
+,"/live2d/models/tororo.model.json",0.5)</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+</body>
+</html>

@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/cat-32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/cat-32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/cat-16x16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/cat-32x32.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Boost," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="boost variant 介绍boost variant 是一个不同union的泛型类，它用于存储和操作不同类型但在使用时存在&amp;lt;相同泛型&amp;gt;的对象。variant 在实现不同类型的泛型的同时，提供对其包含的具体类型的安全访问。基于此性质，boost variant 可以应用于创建json 这种数据结构，我们把json 中的Object, Array, String, Number, T">
+<meta name="keywords" content="Boost">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Json library implemented by boost variant">
+<meta property="og:url" content="https://carbo06.github.io/2018/08/01/Json-library-implemented-by-boost-variant/index.html">
+<meta property="og:site_name" content="Carbon&#39;s Blog">
+<meta property="og:description" content="boost variant 介绍boost variant 是一个不同union的泛型类，它用于存储和操作不同类型但在使用时存在&amp;lt;相同泛型&amp;gt;的对象。variant 在实现不同类型的泛型的同时，提供对其包含的具体类型的安全访问。基于此性质，boost variant 可以应用于创建json 这种数据结构，我们把json 中的Object, Array, String, Number, T">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://myblog-1256683296.cos.ap-beijing.myqcloud.com/variant_json.png">
+<meta property="og:updated_time" content="2018-08-01T11:50:09.878Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Json library implemented by boost variant">
+<meta name="twitter:description" content="boost variant 介绍boost variant 是一个不同union的泛型类，它用于存储和操作不同类型但在使用时存在&amp;lt;相同泛型&amp;gt;的对象。variant 在实现不同类型的泛型的同时，提供对其包含的具体类型的安全访问。基于此性质，boost variant 可以应用于创建json 这种数据结构，我们把json 中的Object, Array, String, Number, T">
+<meta name="twitter:image" content="https://myblog-1256683296.cos.ap-beijing.myqcloud.com/variant_json.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://carbo06.github.io/2018/08/01/Json-library-implemented-by-boost-variant/"/>
+
+
+
+
+
+  <title>Json library implemented by boost variant | Carbon's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Carbon's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">以梦为马 不负韶华</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://carbo06.github.io/2018/08/01/Json-library-implemented-by-boost-variant/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="carbo06@163.com">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Carbon's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Json library implemented by boost variant</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-01T19:20:52+08:00">
+                2018-08-01
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-08-01T19:50:09+08:00">
+                2018-08-01
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Backend-Development/" itemprop="url" rel="index">
+                    <span itemprop="name">Backend Development</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/01/Json-library-implemented-by-boost-variant/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/08/01/Json-library-implemented-by-boost-variant/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="boost-variant-介绍"><a href="#boost-variant-介绍" class="headerlink" title="boost variant 介绍"></a>boost variant 介绍</h2><p>boost variant 是一个不同union的泛型类，它用于存储和操作不同类型但在使用时存在&lt;相同泛型&gt;的对象。variant 在实现不同类型的泛型的同时，提供对其包含的具体类型的安全访问。<br>基于此性质，boost variant 可以应用于创建json 这种数据结构，我们把json 中的Object, Array, String, Number, True, False, Null 统一当做同一种variant 类型。需要注意的是，json 中的Object 和 Array 类型是递归的variant 类型，在声明时需要使用 <strong>boost::recursive_wrapper</strong> 修饰。<strong>boost::recursivee_wrapper</strong>用于创建包含创建的variant类型的表达式。<br>在访问varint 类型时，可以使用<strong>boost::get<t></t></strong> 以及 <strong>boost::apply_visitor</strong> 的形式。<br>更多关于 boost variant 的介绍见:<br><a href="https://www.boost.org/doc/libs/1_62_0/doc/html/variant/reference.html" target="_blank" rel="noopener">https://www.boost.org/doc/libs/1_62_0/doc/html/variant/reference.html</a></p>
+<h2 id="json-数据结构"><a href="#json-数据结构" class="headerlink" title="json 数据结构"></a>json 数据结构</h2><p>json 的数据类型实现如下<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*************************************************************************</span></span><br><span class="line"><span class="comment">    &gt; File Name: json_type.hpp</span></span><br><span class="line"><span class="comment">    &gt; Author: ce39906</span></span><br><span class="line"><span class="comment">    &gt; Mail: ce39906@163.com</span></span><br><span class="line"><span class="comment">    &gt; Created Time: 2018-07-31 16:25:59</span></span><br><span class="line"><span class="comment"> ************************************************************************/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> JSON_TYPE_HPP</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> JSON_TYPE_HPP</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;boost/variant.hpp&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unordered_map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> json</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Object</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Array</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">String</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    String() &#123;&#125;</span><br><span class="line">    String(<span class="keyword">const</span> <span class="keyword">char</span>* value) : value&#123;value&#125; &#123;&#125;</span><br><span class="line">    String(<span class="built_in">std</span>::<span class="built_in">string</span> value) : value&#123;<span class="built_in">std</span>::move(value)&#125; &#123;&#125;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">string</span> value;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Number</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    Number() &#123;&#125;;</span><br><span class="line">    Number(<span class="keyword">const</span> <span class="keyword">double</span> value) : value&#123;value&#125; &#123;&#125;</span><br><span class="line">    <span class="keyword">double</span> value;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">True</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">False</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Null</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> Value = boost::variant&lt;String,</span><br><span class="line">                             Number,</span><br><span class="line">                             boost::recursive_wrapper&lt;Object&gt;,</span><br><span class="line">                             boost::recursive_wrapper&lt;Array&gt;,</span><br><span class="line">                             True,</span><br><span class="line">                             False,</span><br><span class="line">                             Null&gt;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Object</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isMember</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; key)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> values.count(key) != <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">const</span> Value&amp; <span class="title">at</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; key)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> values.at(key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> Value&amp; <span class="keyword">operator</span>[](<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; key) <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> values.at(key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">unordered_map</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>, Value&gt; values;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Array</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">const</span> Value&amp; <span class="title">at</span><span class="params">(<span class="keyword">const</span> <span class="keyword">size_t</span> idx)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> values.at(idx);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> Value&amp; <span class="keyword">operator</span>[](<span class="keyword">const</span> <span class="keyword">size_t</span> idx) <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> values.at(idx);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">size_t</span> size() <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> values.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">const</span> Value&amp; <span class="title">front</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> values.front();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">const</span> Value&amp; <span class="title">back</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> values.back();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Value&gt; values;</span><br><span class="line">&#125;;</span><br><span class="line">&#125; <span class="comment">// ns json</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure></p>
+<h2 id="json-数据访问"><a href="#json-数据访问" class="headerlink" title="json 数据访问"></a>json 数据访问</h2><p>本节只介绍使用<strong>boost::get<t></t></strong> 访问varint数据。<strong>boost::apply_visitor</strong> 的方式在序列化的部分介绍<br>代码示例如下</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> access</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">const</span> Object&amp; asObject(<span class="keyword">const</span> Value&amp; value)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">return</span> boost::<span class="built_in">get</span>&lt;Object&gt;(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">const</span> Array&amp; asArray(<span class="keyword">const</span> Value&amp; value)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">return</span> boost::<span class="built_in">get</span>&lt;Array&gt;(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">const</span> <span class="keyword">String</span>&amp; asString(<span class="keyword">const</span> Value&amp; value)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">return</span> boost::<span class="built_in">get</span>&lt;<span class="keyword">String</span>&gt;(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">const</span> Number&amp; asNumber(<span class="keyword">const</span> Value&amp; value)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">return</span> boost::<span class="built_in">get</span>&lt;Number&gt;(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">const</span> True&amp; asTrue(<span class="keyword">const</span> Value&amp; value)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">return</span> boost::<span class="built_in">get</span>&lt;True&gt;(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">const</span> False&amp; asFalse(<span class="keyword">const</span> Value&amp; value)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">return</span> boost::<span class="built_in">get</span>&lt;False&gt;(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">const</span> Null&amp; asNull(<span class="keyword">const</span> Value&amp; value)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">return</span> boost::<span class="built_in">get</span>&lt;Null&gt;(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125; <span class="comment">// ns access</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="json-序列化"><a href="#json-序列化" class="headerlink" title="json 序列化"></a>json 序列化</h2><p>json 序列化利用<strong>boost::apply_visitor</strong>. <strong>boost::apply_visitor</strong>需要实现一个visitor 函数对象，函数对象针对不同实际类型实现不同的序列化方式，针对Object以及Array 这两种类型需要递归调用visitor。<br>示例代码如下</p>
+<figure class="highlight d"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*************************************************************************</span></span><br><span class="line"><span class="comment">    &gt; File Name: json_serialize.hpp</span></span><br><span class="line"><span class="comment">    &gt; Author: ce39906</span></span><br><span class="line"><span class="comment">    &gt; Mail: ce39906@163.com</span></span><br><span class="line"><span class="comment">    &gt; Created Time: 2018-07-31 17:23:19</span></span><br><span class="line"><span class="comment"> ************************************************************************/</span></span><br><span class="line">#ifndef JSON_SERIALIZE_HPP</span><br><span class="line">#define JSON_SERIALIZE_HPP</span><br><span class="line"></span><br><span class="line">#include <span class="string">"json_type.hpp"</span></span><br><span class="line">#include <span class="string">"json_util.hpp"</span></span><br><span class="line"></span><br><span class="line">#include &lt;vector&gt;</span><br><span class="line">#include &lt;ostream&gt;</span><br><span class="line"></span><br><span class="line">namespace json</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> SerializeToOstream : boost::static_visitor&lt;<span class="keyword">void</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    explicit SerializeToOstream (std::ostream&amp; <span class="keyword">out</span>) : <span class="keyword">out</span>(<span class="keyword">out</span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> operator() (<span class="keyword">const</span> String&amp; <span class="built_in">string</span>) <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">out</span> &lt;&lt; <span class="string">"\""</span>;</span><br><span class="line">        <span class="keyword">out</span> &lt;&lt; <span class="built_in">string</span>.value;</span><br><span class="line">        <span class="keyword">out</span> &lt;&lt; <span class="string">"\""</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> operator() (<span class="keyword">const</span> Number&amp; number) <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">out</span> &lt;&lt; util::<span class="keyword">cast</span>::to_string_with_percision(number.value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> operator() (<span class="keyword">const</span> Object&amp; object) <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">out</span> &lt;&lt; <span class="string">"&#123;"</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> it = object.values.begin(); it != object.values.end();)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">out</span> &lt;&lt; <span class="string">"\""</span> &lt;&lt; it-&gt;first &lt;&lt; <span class="string">"\":"</span>;</span><br><span class="line">            boost::apply_visitor(SerializeToOstream(<span class="keyword">out</span>), it-&gt;second);</span><br><span class="line">            <span class="keyword">if</span> (++it != object.values.end())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">out</span> &lt;&lt; <span class="string">","</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">out</span> &lt;&lt; <span class="string">"&#125;"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> operator() (<span class="keyword">const</span> Array&amp; array) <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">out</span> &lt;&lt; <span class="string">"["</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> it = array.values.cbegin(); it != array.values.cend();)</span><br><span class="line">        &#123;</span><br><span class="line">            boost::apply_visitor(SerializeToOstream(<span class="keyword">out</span>), *it);</span><br><span class="line">            <span class="keyword">if</span> (++it != array.values.cend())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">out</span> &lt;&lt; <span class="string">","</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">out</span> &lt;&lt; <span class="string">"]"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> operator() (<span class="keyword">const</span> True&amp;) <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">out</span> &lt;&lt; <span class="string">"ture"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> operator() (<span class="keyword">const</span> False&amp;) <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">out</span> &lt;&lt; <span class="string">"false"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> operator() (<span class="keyword">const</span> Null&amp;) <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">out</span> &lt;&lt; <span class="string">"null"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span>:</span><br><span class="line">    std::ostream&amp; <span class="keyword">out</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> SerializeToString : boost::static_visitor&lt;<span class="keyword">void</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    explicit SerializeToString (std::<span class="built_in">string</span>&amp; <span class="keyword">out</span>) : <span class="keyword">out</span>(<span class="keyword">out</span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> operator() (<span class="keyword">const</span> String&amp; <span class="built_in">string</span>) <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">out</span>.push_back(<span class="string">'\"'</span>);</span><br><span class="line">        <span class="keyword">out</span>.append(<span class="built_in">string</span>.value);</span><br><span class="line">        <span class="keyword">out</span>.push_back(<span class="string">'\"'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> operator() (<span class="keyword">const</span> Number&amp; number) <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">const</span> std::<span class="built_in">string</span> number_str = util::<span class="keyword">cast</span>::to_string_with_percision(number.value);</span><br><span class="line">        <span class="keyword">out</span>.append(std::move(number_str));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> operator() (<span class="keyword">const</span> Object&amp; object) <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">out</span>.push_back(<span class="string">'&#123;'</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> it = object.values.begin(); it != object.values.end();)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">out</span>.push_back(<span class="string">'\"'</span>);</span><br><span class="line">            <span class="keyword">out</span>.append(it-&gt;first);</span><br><span class="line">            <span class="keyword">out</span>.push_back(<span class="string">'\"'</span>);</span><br><span class="line">            <span class="keyword">out</span>.push_back(<span class="string">':'</span>);</span><br><span class="line">            boost::apply_visitor(SerializeToString(<span class="keyword">out</span>), it-&gt;second);</span><br><span class="line">            <span class="keyword">if</span> (++it != object.values.end())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">out</span>.push_back(<span class="string">','</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">out</span>.push_back(<span class="string">'&#125;'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> operator() (<span class="keyword">const</span> Array&amp; array) <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">out</span>.push_back(<span class="string">'['</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> it = array.values.cbegin(); it != array.values.cend();)</span><br><span class="line">        &#123;</span><br><span class="line">            boost::apply_visitor(SerializeToString(<span class="keyword">out</span>), *it);</span><br><span class="line">            <span class="keyword">if</span> (++it != array.values.cend())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">out</span>.push_back(<span class="string">','</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">out</span>.push_back(<span class="string">']'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> operator() (<span class="keyword">const</span> True&amp;) <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">out</span>.append(<span class="string">"true"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> operator() (<span class="keyword">const</span> False&amp;) <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">out</span>.append(<span class="string">"false"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> operator() (<span class="keyword">const</span> Null&amp;) <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">out</span>.append(<span class="string">"null"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span>:</span><br><span class="line">    std::<span class="built_in">string</span>&amp; <span class="keyword">out</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> serialize(std::ostream&amp; <span class="keyword">out</span>, <span class="keyword">const</span> Object&amp; object)</span><br><span class="line">&#123;</span><br><span class="line">    Value value = object;</span><br><span class="line">    boost::apply_visitor(SerializeToOstream(<span class="keyword">out</span>), value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> serialize(std::<span class="built_in">string</span>&amp; <span class="keyword">out</span>, <span class="keyword">const</span> Object&amp; object)</span><br><span class="line">&#123;</span><br><span class="line">    Value value = object;</span><br><span class="line">    boost::apply_visitor(SerializeToString(<span class="keyword">out</span>), value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125; <span class="comment">// ns json</span></span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+<h2 id="构造json-结构"><a href="#构造json-结构" class="headerlink" title="构造json 结构"></a>构造json 结构</h2><p>针对String,Number,True,False,Null 这类简单类型可以直接使用构造函数构造。<br>Array 类型内部使用vector 类型，构造时使用vector 的 push_back, emplace_back 方法增加Array的元素。<br>Object 类型内部使用unordered_map 类型，构造时可以使用 unordered_map 的内建方法。<br>示例代码如下：</p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Object obj;</span><br><span class="line">obj.<span class="built_in">values</span>[<span class="string">"string"</span>] = <span class="string">"v1"</span>;</span><br><span class="line">obj.<span class="built_in">values</span>[<span class="string">"bool"</span>] = True();</span><br><span class="line">obj.<span class="built_in">values</span>[<span class="string">"null"</span>] = Null();</span><br><span class="line">obj.<span class="built_in">values</span>[<span class="string">"number"</span>] = Number(<span class="number">9</span>);</span><br><span class="line"></span><br><span class="line">Array arr;</span><br><span class="line">arr.<span class="built_in">values</span>.emplace_back(Number(<span class="number">1.02</span>));</span><br><span class="line">arr.<span class="built_in">values</span>.emplace_back(Number(<span class="number">2.2</span>));</span><br><span class="line">arr.<span class="built_in">values</span>.emplace_back(Number(<span class="number">3</span>));</span><br><span class="line">arr.<span class="built_in">values</span>.emplace_back(True());</span><br><span class="line">arr.<span class="built_in">values</span>.emplace_back(False());</span><br><span class="line">obj.<span class="built_in">values</span>[<span class="string">"array"</span>] = <span class="built_in">std</span>::move(arr);</span><br></pre></td></tr></table></figure>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>示例代码测试构建json对象，访问json对象，以及序列化json 对象。<br>示例代码如下</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*************************************************************************</span></span><br><span class="line"><span class="comment">    &gt; File Name: test_json.cpp</span></span><br><span class="line"><span class="comment">    &gt; Author: ce39906</span></span><br><span class="line"><span class="comment">    &gt; Mail: ce39906@163.com</span></span><br><span class="line"><span class="comment">    &gt; Created Time: 2018-07-31 19:26:17</span></span><br><span class="line"><span class="comment"> ************************************************************************/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"json.hpp"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> json;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Object obj;</span><br><span class="line">    obj.values[<span class="string">"string"</span>] = <span class="string">"v1"</span>;</span><br><span class="line">    obj.values[<span class="string">"bool"</span>] = True();</span><br><span class="line">    obj.values[<span class="string">"null"</span>] = Null();</span><br><span class="line">    obj.values[<span class="string">"number"</span>] = Number(<span class="number">9</span>);</span><br><span class="line"></span><br><span class="line">    Array arr;</span><br><span class="line">    arr.values.emplace_back(Number(<span class="number">1.02</span>));</span><br><span class="line">    arr.values.emplace_back(Number(<span class="number">2.2</span>));</span><br><span class="line">    arr.values.emplace_back(Number(<span class="number">3</span>));</span><br><span class="line">    arr.values.emplace_back(True());</span><br><span class="line">    arr.values.emplace_back(False());</span><br><span class="line">    obj.values[<span class="string">"array"</span>] = <span class="built_in">std</span>::move(arr);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// json access</span></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Test json access.\n"</span>;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; arr1 = access::asArray(obj[<span class="string">"array"</span>]);</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"first number in arr is "</span></span><br><span class="line">        &lt;&lt; access::asNumber(arr1.front()).value &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    <span class="comment">// json serialize to ostream</span></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Test serialize to ostream.\n"</span>;</span><br><span class="line">    serialize(<span class="built_in">std</span>::<span class="built_in">cout</span>, obj);</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    <span class="comment">// json serialize to string</span></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Test serialize to string.\n"</span>;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">string</span> str;</span><br><span class="line">    serialize(str, obj);</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; str &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><blockquote>
+<p>g++ –std=c++11 test_json.cpp -o test_json</p>
+</blockquote>
+<h3 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h3><p>执行结果如下<br><img src="https://myblog-1256683296.cos.ap-beijing.myqcloud.com/variant_json.png" alt="pic"></p>
+<h2 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h2><p>使用<strong>boost spirit</strong> 实现json反序列化</p>
+<h2 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h2><p><a href="https://github.com/ce39906/self-practices/tree/master/cppcode/variant_json" target="_blank" rel="noopener">https://github.com/ce39906/self-practices/tree/master/cppcode/variant_json</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Donate</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="carbo06@163.com 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="carbo06@163.com 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Boost/" rel="tag"># Boost</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/26/c-11-右值引用-移动构造函数-emplace-back-解析/" rel="next" title="c++11 右值引用,移动构造函数,emplace_back 解析">
+                <i class="fa fa-chevron-left"></i> c++11 右值引用,移动构造函数,emplace_back 解析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/08/C-11-智能指针/" rel="prev" title="C++11 智能指针">
+                C++11 智能指针 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="carbo06@163.com" />
+            
+              <p class="site-author-name" itemprop="name">carbo06@163.com</p>
+              <p class="site-description motion-element" itemprop="description">About Linux C++ and routing algorithms.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ce39906" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:ce39906@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Friends
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://lambdae.github.io/" title="DingliYang" target="_blank">DingliYang</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://zsirkg.github.io/" title="SongZhang" target="_blank">SongZhang</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#boost-variant-介绍"><span class="nav-number">1.</span> <span class="nav-text">boost variant 介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#json-数据结构"><span class="nav-number">2.</span> <span class="nav-text">json 数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#json-数据访问"><span class="nav-number">3.</span> <span class="nav-text">json 数据访问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#json-序列化"><span class="nav-number">4.</span> <span class="nav-text">json 序列化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造json-结构"><span class="nav-number">5.</span> <span class="nav-text">构造json 结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-number">6.</span> <span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#编译"><span class="nav-number">6.1.</span> <span class="nav-text">编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行"><span class="nav-number">6.2.</span> <span class="nav-text">执行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TODO"><span class="nav-number">7.</span> <span class="nav-text">TODO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完整代码"><span class="nav-number">8.</span> <span class="nav-text">完整代码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">carbo06@163.com</span>
+
+  
+</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: decodeURI(window.location.pathname).substring(0,20), 
+            owner: 'ce39906',
+            repo: 'gitment',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '3a1beedc308144127ed5d8ab972048d6d1ec518c',
+            
+                client_id: '7af8980cc9bd208dffa7'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+<script type="text/javascript" src="/live2d/script.js"></script>
+<canvas id="live2dcanvas" width="300" height="400" class="live2d"></canvas>
+<style>
+  #live2dcanvas {
+    position: fixed;
+    left: 0px;
+    z-index: 999;
+    pointer-events: none;
+    bottom: -50px;
+  }
+</style>
+<script>loadlive2d("live2dcanvas"
+,"/live2d/models/tororo.model.json",0.5)</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+</body>
+</html>
